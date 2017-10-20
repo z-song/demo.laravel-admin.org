@@ -11,7 +11,7 @@ $ git clone https://github.com/z-song/laravel-admin.org
 
 $ cd laravel-admin.org
 
-$ composer require -vvv
+$ composer install -vvv
 
 ```
 
