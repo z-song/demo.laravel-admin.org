@@ -34,7 +34,7 @@ The above command will create the controller in `app/Admin/Controllers/UserContr
 
 Add a route in `app/Admin/routes.php`：
 ```
-$router->resource('users', UserController::class);
+$router->resource('demo/users', UserController::class);
 ```
 
 ## Add left menu item
