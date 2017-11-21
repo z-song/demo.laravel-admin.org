@@ -76,7 +76,7 @@
                         <iframe src="https://ghbtns.com/github-btn.html?user=z-song&repo=laravel-admin&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
                     </div>
                     <form class="form-inline margin-top sign-up-form">
-                        <input id="email_intro" type="email" class="form-control" value="composer require encore/laravel-admin">
+                        <input class="form-control" value="composer require encore/laravel-admin">
                         <a href="/docs" class="btn btn-primary" style="text-decoration: none;">Start</a>
                     </form>
                 </div>

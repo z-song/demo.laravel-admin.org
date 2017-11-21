@@ -21,15 +21,15 @@ class AppServiceProvider extends ServiceProvider
             return false;
         };
 
-        Menu::saving($callback);
-        Role::saving($callback);
-        Permission::saving($callback);
-        Administrator::saving($callback);
-
-        Menu::deleting($callback);
-        Role::deleting($callback);
-        Permission::deleting($callback);
-        Administrator::deleting($callback);
+//        Menu::saving($callback);
+//        Role::saving($callback);
+//        Permission::saving($callback);
+//        Administrator::saving($callback);
+//
+//        Menu::deleting($callback);
+//        Role::deleting($callback);
+//        Permission::deleting($callback);
+//        Administrator::deleting($callback);
     }
 
     /**

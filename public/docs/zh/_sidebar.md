@@ -28,6 +28,7 @@
 - [前端组件](/zh/widgets.md)
 - [权限控制](/zh/permission.md)
 - [自定义登陆认证](/zh/custom-authentication.md)
+- [自定义头部导航](/zh/custom-navbar.md)
 - [自定义图表](/zh/custom-chart.md)
 - [常见问题](/zh/qa.md)
 - [升级注意事项](/zh/upgrade.md)
