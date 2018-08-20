@@ -29,6 +29,16 @@ $grid->column('full_name')->display(function () {
 
 `model-grid` has built-in methods to help you extend the column functionality
 
+### using
+
+> since v1.5.17
+
+If the value of the field `gender` is `f`, `m`, it needs to be displayed with `Female` and `Male` respectively.
+
+```php
+$grid->gender()->using(['f' => 'Female', 'm' => 'Male']);
+```
+
 ### editable
 
 With the help of `editable.js`, you can edit the data in the grid directly:

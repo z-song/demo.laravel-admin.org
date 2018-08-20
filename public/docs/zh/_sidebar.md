@@ -2,6 +2,7 @@
 - 入门
   - [安装](/zh/installation.md)
   - [快速开始](/zh/quick-start.md)
+  - [页面内容和布局](/zh/content-layout.md)
 - 模型表格
   - [基本使用](/zh/model-grid.md)
   - [行的使用和扩展](/zh/model-grid-actions.md)
@@ -17,6 +18,7 @@
   - [Form组件管理](/zh/model-form-field-management.md)
   - [表单验证](/zh/model-form-validation.md)
   - [保存回调](/zh/model-form-callback.md)
+- [模型详情](/zh/model-show.md)
 - [数据模型树](/zh/model-tree.md)
 - Admin扩展
   - [帮助工具](/zh/extension-helpers.md)
@@ -24,7 +26,6 @@
   - [API tester](/zh/extension-api-tester.md)
   - [配置管理](/zh/extension-config.md)
   - [计划任务](/zh/extension-scheduling.md)
-- [显示布局](/zh/layout.md)
 - [前端组件](/zh/widgets.md)
 - [权限控制](/zh/permission.md)
 - [自定义登陆认证](/zh/custom-authentication.md)

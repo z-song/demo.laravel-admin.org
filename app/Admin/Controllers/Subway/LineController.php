@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Admin\Controllers;
+namespace App\Admin\Controllers\Subway;
 
-use App\Models\Tag;
-use App\Models\Video;
+use App\Models\Subway\Line;
+
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Show;
 
-class VideoController extends Controller
+class LineController extends Controller
 {
     use ModelForm;
 
@@ -23,18 +24,47 @@ class VideoController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
+
             $content->header('header');
             $content->description('description');
-            $content->body($this->grid());
+
+            $content->row(function($row) {
+                $row->column(10, $this->grid());
+                $row->column(2, view('admin.grid.subway'));
+            });
         });
     }
 
     public function show($id)
     {
         return Admin::content(function (Content $content) use ($id) {
-            $content->header('header');
-            $content->description('description');
-            $content->body(Admin::show(Video::findOrFail($id)));
+
+            $content->header('Lines');
+            $content->description('线路详情');
+
+            $content->body(Admin::show(Line::findOrFail($id), function (Show $show) {
+
+                $show->name();
+                $show->uid();
+                $show->city()->cn_name();
+
+                $show->stops('地铁线', function ($stop) {
+
+                    $stop->resource('/demo/subway/stops');
+
+                    $stop->id();
+                    $stop->name();
+                    $stop->uid();
+
+                    $stop->column('position')->openMap(function () {
+                        return [$this->lat/100000, $this->lng/100000];
+                    }, 'Position');
+
+                    $stop->created_at();
+                    $stop->updated_at();
+
+                });
+            }));
         });
     }
 
@@ -78,23 +108,27 @@ class VideoController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Video::class, function (Grid $grid) {
+        return Admin::grid(Line::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
 
-            $grid->title()->limit(30);
+            $grid->name();
 
-            $grid->status()->radio([
-                0 => 'Sed ut perspiciatis unde omni',
-                1 => 'voluptatem accusantium doloremque',
-                2 => 'dicta sunt explicabo',
-                3 => 'laudantium, totam rem aperiam',
-            ]);
+//            $grid->uid();
+//            $grid->pair_uid();
+//            $grid->stops()->display(function ($lines) {
+//                return array_column($lines, 'name');
+//            })->implode('</br>');
 
-            $grid->tags()->pluck('name')->label();
+            $grid->city()->cn_name();
 
             $grid->created_at();
             $grid->updated_at();
+
+            $grid->filter(function ($filter) {
+                $filter->expand();
+                $filter->like('name', 'Name');
+            });
         });
     }
 
@@ -105,24 +139,9 @@ class VideoController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Video::class, function (Form $form) {
+        return Admin::form(Line::class, function (Form $form) {
 
             $form->display('id', 'ID');
-
-            $form->text('title')->rules('required');
-
-            $form->radio('status')->options([
-                0 => 'Sed ut perspiciatis unde omni',
-                1 => 'voluptatem accusantium doloremque',
-                2 => 'dicta sunt explicabo',
-                3 => 'laudantium, totam rem aperiam',
-            ])->stacked();
-
-            $form->file('video');
-
-            $form->datetime('release_at');
-
-            $form->multipleSelect('tags')->options(Tag::all()->pluck('name', 'id'));
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

@@ -18,6 +18,7 @@ Route::group([
         'users'                 => UserController::class,
         'images'                => ImageController::class,
         'posts'                 => PostController::class,
+        'post-comments'         => PostCommentController::class,
         'videos'                => VideoController::class,
         'articles'              => ArticleController::class,
         'painters'              => PainterController::class,
@@ -36,6 +37,10 @@ Route::group([
         'china/province'        => China\ProvinceController::class,
         'china/city'            => China\CityController::class,
         'china/district'        => China\DistrictController::class,
+
+        'subway/cities'         => Subway\CityController::class,
+        'subway/lines'          => Subway\LineController::class,
+        'subway/stops'          => Subway\StopController::class,
     ]);
 
     $router->post('posts/release', 'PostController@release');

@@ -10,6 +10,8 @@ laravel-admin
 
 `laravel-admin` is administrative interface builder for laravel which can help you build CRUD backends just with few lines of code.
 
+> Since I don't have much time to maintain this project, laravel-admin only supports the LTS version of Laravel (currently Laravel 5.5).
+
 [Demo](http://laravel-admin.org/demo) use `username/password:admin/admin`
 
 Inspired by [SleepingOwlAdmin](https://github.com/sleeping-owl/admin) and [rapyd-laravel](https://github.com/zofe/rapyd-laravel).
@@ -70,6 +72,14 @@ Other
 + [bootstrap-number-input](https://github.com/wpic/bootstrap-number-input)
 + [fontawesome-iconpicker](https://github.com/itsjavi/fontawesome-iconpicker)
 
+
+Donation
+------------
+
+> Help keeping the project development going, by donating a little. Thanks in advance.
+
+[![PayPal Me](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/zousong)
+
 License
 ------------
-`laravel-admin` is licensed under [The MIT License (MIT)](LICENSE).
+`laravel-admin` is licensed under [The MIT License (MIT)](/en/LICENSE).

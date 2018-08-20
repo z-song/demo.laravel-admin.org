@@ -16,6 +16,54 @@ $grid->filter(function($filter){
 
 ```
 
+## Updates in v1.5.18 
+
+The `v1.5.8` version has the following updates to the filter query.
+
+### Style
+
+> v1.5.18 version and above support
+
+Adjust the style of the filter query panel, from the original pop-up modal to the embedded table header, click the filter button to expand the display, the default is not expanded, you can let it expand by default in the following way:
+```php
+
+// Operate on the `$grid` instance
+$grid->expandFilter();
+
+// Or manipulate the `$filter` instance in the filter callback
+$filter->expand();
+
+```
+
+reference [Demo](http://laravel-admin.org/demo/posts)
+
+### Define the scope of the query
+
+> v1.5.18 version and above support
+
+You can define your most commonly used query as a query scope, which will appear in the drop-down menu of the filter button. Here are a few examples:```php
+
+```php
+$filter->scope('male', 'Male')->where('gender', 'm');
+
+// Multiple conditional query
+$filter->scope('new', 'Recently modified')
+    ->whereDate('created_at', date('Y-m-d'))
+    ->orWhere('updated_at', date('Y-m-d'));
+
+// Relationship query
+$filter->scope('address')->whereHas('profile', function ($query) {
+    $query->whereNotNull('address');
+});
+
+$filter->scope('trashed', 'Soft deleted data')->onlyTrashed();
+
+```
+
+The first parameter of the `scope` method is the key of the query. It will appear in the url parameter. The second parameter is the label of the drop-down menu item. If not filled, the first parameter will be displayed as the label.
+
+You can call any `eloquent` query condition after the `scope` method. The effect is referenced [Demo] (http://laravel-admin.org/demo/posts)
+
 ## Filter type
 
 Currently supported filter types are the following:
@@ -233,5 +281,28 @@ $filter->equal('column')->month();
 
 // `year()` equals to `datetime(['format' => 'YYYY'])`
 $filter->equal('column')->year();
+
+```
+
+## Complex query filter
+ 
+You can use the `$this->input` to trigger complex custom queries:
+
+```php
+$filter->where(function ($query) {
+    switch ($this->input) {
+        case 'yes':
+            // custom complex query if the 'yes' option is selected
+            $query->has('somerelationship');
+            break;
+        case 'no':
+            $query->doesntHave('somerelationship');
+            break;
+    }
+}, 'Label of the field', 'name_for_url_shortcut')->radio([
+    '' => 'All',
+    'yes' => 'Only with relationship',
+    'no' => 'Only without relationship',
+]);
 
 ```

@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Admin\Controllers;
+namespace App\Admin\Controllers\Subway;
 
-use App\Models\Post;
-use App\Models\PostComment;
+use App\Models\Subway\Stop;
+
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Show;
 
-class PostCommentController extends Controller
+class StopController extends Controller
 {
     use ModelForm;
 
@@ -23,9 +24,38 @@ class PostCommentController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-            $content->header('Post comments');
-            $content->description('Post comments');
-            $content->body($this->grid());
+
+            $content->header('header');
+            $content->description('description');
+
+            $content->row(function($row) {
+                $row->column(10, $this->grid());
+                $row->column(2, view('admin.grid.subway'));
+            });
+        });
+    }
+
+    public function show($id)
+    {
+        return Admin::content(function (Content $content) use ($id) {
+
+            $content->header('Lines');
+            $content->description('线路详情');
+
+            $content->body(Admin::show(Stop::findOrFail($id), function (Show $show) {
+
+                $show->name();
+                $show->uid();
+                $show->lat();
+                $show->lng();
+
+                $show->line(function ($line) {
+                    $line->name();
+                    $line->uid();
+                });
+
+
+            }));
         });
     }
 
@@ -38,8 +68,10 @@ class PostCommentController extends Controller
     public function edit($id)
     {
         return Admin::content(function (Content $content) use ($id) {
+
             $content->header('header');
             $content->description('description');
+
             $content->body($this->form()->edit($id));
         });
     }
@@ -52,8 +84,10 @@ class PostCommentController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
+
             $content->header('header');
             $content->description('description');
+
             $content->body($this->form());
         });
     }
@@ -65,20 +99,24 @@ class PostCommentController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(PostComment::class, function (Grid $grid) {
-
-            if ($post = request('post_id')) {
-                $grid->model()->ofPost($post);
-            }
+        return Admin::grid(Stop::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->post()->title('Post');
-            $grid->content()->editable();
+
+            $grid->name();
+
+            $grid->line()->name();
+
+            $grid->column('position')->openMap(function () {
+                return [$this->lat/100000, $this->lng/100000];
+            }, 'Position');
+
             $grid->created_at();
             $grid->updated_at();
 
             $grid->filter(function ($filter) {
-                $filter->like('content');
+                $filter->expand();
+                $filter->like('name', 'Name');
             });
         });
     }
@@ -90,12 +128,9 @@ class PostCommentController extends Controller
      */
     protected function form()
     {
-        return Admin::form(PostComment::class, function (Form $form) {
+        return Admin::form(Stop::class, function (Form $form) {
 
             $form->display('id', 'ID');
-
-            $form->select('post_id')->options(Post::all()->pluck('title', 'id'))->value(request('post_id'));
-            $form->textarea('content');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

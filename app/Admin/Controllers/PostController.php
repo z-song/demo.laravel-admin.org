@@ -2,40 +2,96 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Extensions\ExcelExporter;
 use App\Admin\Extensions\Tools\ReleasePost;
 use App\Admin\Extensions\Tools\RestorePost;
 use App\Admin\Extensions\Tools\ShowSelected;
-use App\Admin\Extensions\Tools\Trashed;
 use App\Models\Post;
+use App\Models\PostComment;
 use App\Models\Tag;
 use App\Models\User;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Show;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
+        return $content
+            ->header('Posts')
+            ->description('Post list..')
+            ->body($this->grid());
+    }
 
-            $content->header('Posts');
-            $content->description('Post list..');
+    public function show($id, Content $content)
+    {
+        return $content
+            ->header('Post')
+            ->description('Post详情')
+            ->body(Admin::show(Post::findOrFail($id), function (Show $show) {
 
-            $content->body($this->grid());
-        });
+            $show->panel()
+                ->style('danger')
+                ->title('post基本信息')
+                ->tools(function ($tools) {
+//                        $tools->disableEdit();
+                });;
+
+            $show->title()->foo();
+            $show->content()->json();
+            $show->rate();
+            $show->created_at();
+            $show->updated_at();
+            $show->release_at();
+
+            $show->divider();
+
+            $show->tags('标签')->as(function ($tags) {
+                return $tags->pluck('name');
+            })->badge();
+
+            $show->author('作者信息', function ($author) {
+
+                $author->setResource('/demo/users');
+
+                $author->id();
+                $author->name();
+                $author->email();
+                $author->avatar();
+                $author->profile()->age();
+                $author->profile()->gender('性别')->using(['m' => '女', 'f' => '男'], '未知');
+
+                $author->panel()->tools(function ($tools) {
+                    $tools->disableDelete();
+                });
+            });
+
+            $show->comments('评论', function ($line) {
+
+                $line->resource('/demo/post-comments');
+
+                $line->id();
+                $line->content()->limit(10);
+                $line->created_at();
+                $line->updated_at();
+
+                $line->filter(function ($filter) {
+                    $filter->like('content');
+                });
+            });
+        }));
     }
 
     /**
@@ -51,7 +107,21 @@ class PostController extends Controller
             $content->header('header');
             $content->description('description');
 
-            $content->body($this->form()->edit($id));
+            $content->row($this->form()->edit($id));
+
+            $content->row(Admin::grid(PostComment::class, function (Grid $grid) use ($id) {
+
+                $grid->setName('comments')
+                    ->setTitle('Comments')
+                    ->setRelation(Post::find($id)->comments())
+                    ->resource('/demo/post-comments');
+
+                $grid->id();
+                $grid->content();
+                $grid->created_at();
+                $grid->updated_at();
+
+            }));
         });
     }
 
@@ -60,15 +130,12 @@ class PostController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('header');
-            $content->description('description');
-
-            $content->body($this->form());
-        });
+        return $content
+            ->header('header')
+            ->description('description')
+            ->body($this->form());
     }
 
     /**
@@ -80,9 +147,7 @@ class PostController extends Controller
     {
         return Admin::grid(Post::class, function (Grid $grid) {
 
-            if (request('trashed') == 1) {
-                $grid->model()->onlyTrashed();
-            }
+            $grid->expandFilter();
 
             $grid->id('ID')->sortable();
 
@@ -100,22 +165,30 @@ class PostController extends Controller
             $grid->rate()->display(function ($rate) {
                 $html = "<i class='fa fa-star' style='color:#ff8913'></i>";
 
+                if ($rate < 1) {
+                    return '';
+                }
+
                 return join('&nbsp;', array_fill(0, min(5, $rate), $html));
             });
 
-            $grid->created_at();
-
             $grid->column('float_bar')->floatBar();
+
+            $grid->column('Comments')->display(function () {
+                return $this->comments()->take(5)->get(['id', 'content', 'created_at'])->toArray();
+            })->table();
+
+            $grid->created_at();
 
             $grid->rows(function (Grid\Row $row) {
                 if ($row->id % 2) {
-                    $row->setAttributes(['style' => 'color:red;']);
+//                    $row->setAttributes(['style' => 'color:red;']);
                 }
             });
 
             $grid->filter(function (Grid\Filter $filter) {
 
-                $filter->equal('title');
+                $filter->like('title');
 
                 $filter->equal('created_at')->datetime();
 
@@ -132,11 +205,14 @@ class PostController extends Controller
                     });
 
                 }, 'Has tag', 'tag');
+
+                $filter->scope('trashed')->onlyTrashed();
+                $filter->scope('hot')->where('rate', '>', 3);
+                $filter->scope('released')->where('released', 1);
+                $filter->scope('new', 'Updated today')->whereDate('updated_at', date('Y-m-d'));
             });
 
             $grid->tools(function ($tools) {
-
-                $tools->append(new Trashed());
 
                 $tools->batch(function (Grid\Tools\BatchActions $batch) {
 
@@ -148,7 +224,16 @@ class PostController extends Controller
 
             });
 
-            $grid->exporter(new ExcelExporter());
+//            $grid->footer(function (Grid\Tools\Footer $footer) {
+//
+//                $totalRate = $footer->column('rate')->sum();
+//
+//                $footer->td()->colspan(4);
+//
+//                $footer->td("总评分 : $totalRate");
+//            });
+
+//            $grid->exporter(new CustomExporter());
         });
     }
 
@@ -217,6 +302,15 @@ class PostController extends Controller
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
+
+            $form->tools(function (Form\Tools $tools) {
+
+//                $tools->disableList();
+//                $tools->disableDelete();
+//                $tools->disableView();
+
+//                $tools->append('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
+            });
         });
     }
 

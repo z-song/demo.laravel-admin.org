@@ -1,4 +1,4 @@
-# 升级注意事项
+# Upgrade precautions
 
 Because `laravel-admin 1.5` built-in table structure has been modified, it is recommended that you re-install `laravel 5.5` and `laravel-admin 1.5`, and then migrate the code over
 

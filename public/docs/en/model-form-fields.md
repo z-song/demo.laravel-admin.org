@@ -31,7 +31,7 @@ $form->text('title')->attribute('data-title', 'title...');
 $form->text('title')->placeholder('Please input...');
 ```
 
-### model-form-tab
+### Model-form-tab
 
 If the form contains too many fields, will lead to form page is too long, in which case you can use the tab to separate the form:
 
@@ -69,7 +69,7 @@ $form->text($column, [$label]);
 $form->text($column, [$label])->rules('required|min:10');
 ```
 
-## select
+## Select
 ```php
 $form->select($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
 ```
@@ -130,7 +130,7 @@ The json returned from api `/admin/demo/options`:
 }
 ```
 
-### select linkage
+### Select linkage
 
 `select` component supports one-way linkage of parent-child relationship:
 ```php
@@ -245,7 +245,7 @@ The json returned from api `/admin/demo/options`:
 }
 ```
 
-## listbox
+## Listbox
 
 The usage is as same as mutipleSelect.
 
@@ -253,19 +253,19 @@ The usage is as same as mutipleSelect.
 $form->listbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
 ```
 
-## textarea
+## Textarea
 ```php
 $form->textarea($column[, $label])->rows(10);
 ```
 
-## radio
+## Radio
 ```php
 $form->radio($column[, $label])->options(['m' => 'Female', 'f'=> 'Male'])->default('m');
 
 $form->radio($column[, $label])->options(['m' => 'Female', 'f'=> 'Male'])->default('m')->stacked();
 ```
 
-## checkbox
+## Checkbox
 
 `checkbox` can store values in two ways, see[multiple select](#Multiple select)
 
@@ -276,37 +276,37 @@ $form->checkbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'O
 $form->checkbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name'])->stacked();
 ```
 
-## email input
+## Email input
 ```php
 $form->email($column[, $label]);
 ```
 
-## password input
+## Password input
 ```php
 $form->password($column[, $label]);
 ```
 
-## url input
+## URL input
 ```php
 $form->url($column[, $label]);
 ```
 
-## ip input
+## Ip input
 ```php
 $form->ip($column[, $label]);
 ```
 
-## phone number input
+## Phone number input
 ```php
 $form->mobile($column[, $label])->options(['mask' => '999 9999 9999']);
 ```
 
-## color select
+## Color select
 ```php
 $form->color($column[, $label])->default('#ccc');
 ```
 
-## time input
+## Time input
 ```php
 $form->time($column[, $label]);
 
@@ -314,7 +314,7 @@ $form->time($column[, $label]);
 $form->time($column[, $label])->format('HH:mm:ss');
 ```
 
-## date input
+## Date input
 ```php
 $form->date($column[, $label]);
 
@@ -322,7 +322,7 @@ $form->date($column[, $label]);
 $form->date($column[, $label])->format('YYYY-MM-DD');
 ```
 
-## datetime input
+## Datetime input
 ```php
 $form->datetime($column[, $label]);
 
@@ -330,25 +330,25 @@ $form->datetime($column[, $label]);
 $form->datetime($column[, $label])->format('YYYY-MM-DD HH:mm:ss');
 ```
 
-## time range select
+## Time range select
 `$startTime`、`$endTime`is the start and end time fields:
 ```php
 $form->timeRange($startTime, $endTime, 'Time Range');
 ```
 
-## date range select
+## Date range select
 `$startDate`、`$endDate`is the start and end date fields:
 ```php
 $form->dateRange($startDate, $endDate, 'Date Range');
 ```
 
-## datetime range select
+## Datetime range select
 `$startDateTime`、`$endDateTime` is the start and end datetime fields:
 ```php
 $form->datetimeRange($startDateTime, $endDateTime, 'DateTime Range');
 ```
 
-## currency input
+## Currency input
 ```php
 $form->currency($column[, $label]);
 
@@ -357,17 +357,23 @@ $form->currency($column[, $label])->symbol('￥');
 
 ```
 
-## number input
+## Number input
 ```php
 $form->number($column[, $label]);
+
+// set max value
+$form->number($column[, $label])->max(100);
+
+// set min value
+$form->number($column[, $label])->min(10);
 ```
 
-## rate input
+## Rate input
 ```php
 $form->rate($column[, $label]);
 ```
 
-## image upload
+## Image upload
 
 Before use upload field, you must complete upload configuration, see [image/file upload](/en/model-form-upload.md).
 
@@ -389,7 +395,7 @@ $form->image($column[, $label])->removable();
 
 ```
 
-## file upload
+## File upload
 
 Before use upload field, you must complete upload configuration, see [image/file upload](/en/model-form-upload.md).
 
@@ -408,7 +414,7 @@ $form->file($column[, $label])->removable();
 
 ```
 
-## multiple image/file upload
+## Multiple image/file upload
 
 ```php
 // multiple image
@@ -440,7 +446,7 @@ public function getPicturesAttribute($pictures)
 ```
 Of course, you can also specify any other format.
 
-## map
+## Map
 
 The map field refers to the network resource, and if there is a problem with the network refer to [form Component Management](/en/model-form-field-management.md) to remove the component.
 
@@ -455,14 +461,14 @@ $form->map($latitude, $longitude, $label)->useTencentMap();
 $form->map($latitude, $longitude, $label)->useGoogleMap();
 ```
 
-## slider
+## Slider
 Can be used to select the type of digital fields, such as age:
 ```php
 $form->slider($column[, $label])->options(['max' => 100, 'min' => 1, 'step' => 1, 'postfix' => 'years old']);
 ```
 More options please ref to https://github.com/IonDen/ion.rangeSlider#settings
 
-## rich text editor
+## Rich text editor
 
 The editor field refers to the network resource, and if there is a problem with the network refer to [form Component Management](/en/model-form-field-management.md) to remove the component.
 
@@ -470,12 +476,12 @@ The editor field refers to the network resource, and if there is a problem with 
 $form->editor($column[, $label]);
 ```
 
-## hidden field
+## Hidden field
 ```php
 $form->hidden($column);
 ```
 
-## switch
+## Switch
 `On` and` off` pairs of switches with the values `1` and` 0`:
 ```php
 $states = [
@@ -486,13 +492,13 @@ $states = [
 $form->switch($column[, $label])->states($states);
 ```
 
-## display field
+## Display field
 Only display the fields and without any action:
 ```php
 $form->display($column[, $label]);
 ```
 
-## divide
+## Divide
 ```php
 $form->divide();
 ```
@@ -503,19 +509,19 @@ insert html,the argument passed in could be objects which impletements `Htmlable
 $form->html('html contents');
 ```
 
-## tags
+## Tags
 Insert the comma (,) separated string `tags`
 ```php
 $form->tags('keywords');
 ```
 
-## icon
+## Icon
 Select the `font-awesome` icon.
 ```php
 $form->icon('icon');
 ```
 
-## hasMany
+## HasMany
 
 One-to-many built-in tables for dealing with one-to-many relationships. Here is a simple example:
 
@@ -594,7 +600,7 @@ $form->display('created_at', 'Created At');
 $form->display('updated_at', 'Updated At');
 ```
 
-## embeds
+## Embeds
 
 Used to handle the `JSON` type field data of `mysql` or `object` type data of `mongodb`, or the data values of multiple fields can be stored in the form of the` JSON` string in the character type of mysql
 

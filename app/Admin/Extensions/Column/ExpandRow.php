@@ -21,7 +21,7 @@ $('.grid-expand').on('click', function () {
         var row = $(this).closest('tr');
         var html = $('template.grid-expand-'+key).html();
 
-        row.after("<tr><td colspan='"+row.find('td').length+"' style='padding:0 !important; border:0px;'>"+html+"</td></tr>");
+        row.after("<tr><td></td><td colspan='"+(row.find('td').length-1)+"' style='padding:0 !important; border:0px;'>"+html+"</td></tr>");
 
         $(this).data('inserted', 1);
     }

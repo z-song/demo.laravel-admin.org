@@ -28,7 +28,7 @@ app('view')->prependNamespace('admin', resource_path('views/admin'));
 
 ```php
 Admin::css('path/to/your/css');
-Admin::css('path/to/your/js');
+Admin::js('path/to/your/js');
 ```
 
 

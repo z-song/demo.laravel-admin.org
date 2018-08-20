@@ -1,33 +1,50 @@
-# Layout
+# 页面内容
 
-The layout usage of `laravel-admin` can be found in the `index()` method of the home page's layout file [HomeController.php](https://github.com/z-song/laravel-admin/blob/master/src/Console/stubs/HomeController.stub).
+`laravel-admin`的布局可参考后台首页的布局文件[HomeController.php](https://github.com/z-song/laravel-admin/blob/master/src/Console/stubs/HomeController.stub)的`index()`方法。
 
-The `Encore\Admin\Layout\Content` class is used to implement the layout of the content area. The `Content::body ($element)` method is used to add page content:
+`Encore\Admin\Layout\Content`类用来实现内容区的布局。`Content::body($content)`方法用来添加页面内容：
 
-The page code for an unfilled content is as follows：
+一个简单的后台页面代码如下：
 
 ```php
 public function index()
 {
     return Admin::content(function (Content $content) {
 
-        // optional
-        $content->header('page header');
+        // 选填
+        $content->header('填写页面头标题');
         
-        // optional
-        $content->description('page description');
+        // 选填
+        $content->description('填写页面描述小标题');
+        
+        // 添加面包屑导航 since v1.5.7
+        $content->breadcrumb(
+            ['text' => '首页', 'url' => '/admin'],
+            ['text' => '用户管理', 'url' => '/admin/users'],
+            ['text' => '编辑用户']
+        );
 
-        // Fill the page body part
+        // 填充页面body部分，这里可以填入任何可被渲染的对象
         $content->body('hello world');
+        
+        // 在body中添加另一段内容
+        $content->body('foo bar');
+        
+        // `row`是`body`方法的别名
+        $content->row('hello world');
     });
 }
 
+```
 
-## Examples
+其中`$content->body();`方法可以接受任何可字符串化的对象作为参数，可以是字符串、数字、包含了`__toString`方法的对象，实现了`Renderable`、`Htmlable`接口的对象，包括laravel的视图。
 
-`laravel-admin` use grid system of bootstrap,The length of each line is 12, the following is a few simple examples:
 
-Add a line of content:
+## 布局
+
+`laravel-admin`的布局使用bootstrap的栅格系统，每行的长度是12，下面是几个简单的示例：
+
+添加一行内容:
 
 ```php
 $content->row('hello')
@@ -43,7 +60,7 @@ $content->row('hello')
 
 ```
 
-Add multiple columns within the line：
+行内添加多列：
 
 ```php
 $content->row(function(Row $row) {
@@ -76,7 +93,7 @@ $content->row(function(Row $row) {
 
 ```
 
-Column in the column：
+列中添加行：
 
 ```php
 $content->row(function (Row $row) {
@@ -102,7 +119,7 @@ $content->row(function (Row $row) {
 ```
 
 
-Add rows in rows and add columns：
+列中添加行, 行内再添加列：
 
 ```php
 $content->row(function (Row $row) {

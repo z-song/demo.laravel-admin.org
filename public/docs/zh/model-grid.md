@@ -137,7 +137,7 @@ $grid->column('full_name')->display(function () {
 
 #### 禁用创建按钮
 ```php
-$grid->disableCreation();
+$grid->disableCreateButton();
 ```
 
 #### 禁用分页条

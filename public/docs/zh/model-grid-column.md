@@ -29,6 +29,16 @@ $grid->column('full_name')->display(function () {
 
 `model-grid`内置了若干方法来帮助你扩展列功能
 
+### using
+
+> since v1.5.17
+
+如果字段`gender`的取值为`f`、`m`，分别需要用`女`、`男`来显示
+
+```php
+$grid->gender()->using(['f' => '女', 'm' => '男']);
+```
+
 ### editable
 
 通过`editable.js`的帮助，可以让你在表格中直接编辑数据，使用方法如下

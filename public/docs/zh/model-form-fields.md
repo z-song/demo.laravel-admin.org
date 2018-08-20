@@ -378,6 +378,12 @@ $form->currency($column[, $label])->symbol('￥');
 ## 数字输入框
 ```php
 $form->number($column[, $label]);
+
+// 设置最大值
+$form->number($column[, $label])->max(100);
+
+// 设置最小值
+$form->number($column[, $label])->min(10);
 ```
 
 ## 比例输入框

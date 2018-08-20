@@ -133,7 +133,7 @@ $grid->column('full_name')->display(function () {
 
 #### Disable the create button 
 ```php
-$grid->disableCreation();
+$grid->disableCreateButton();
 ```
 
 #### Disable Pagination

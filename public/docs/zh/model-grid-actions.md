@@ -6,6 +6,7 @@
  $grid->actions(function ($actions) {
     $actions->disableDelete();
     $actions->disableEdit();
+    $actions->disableView();
 });
 ```
 可以通过传入的`$actions`参数来获取当前行的数据：
@@ -30,7 +31,7 @@ $grid->actions(function ($actions) {
 
     // prepend一个操作
     $actions->prepend('<a href=""><i class="fa fa-paper-plane"></i></a>');
-}
+});
 ```
 
 如果有比较复杂的操作，可以参考下面的方式：
@@ -86,5 +87,5 @@ $grid->actions(function ($actions) {
     
     // 添加操作
     $actions->append(new CheckRow($actions->getKey()));
-}
+});
 ```

@@ -66,7 +66,7 @@ var editor = new E('#{$this->id}');
 editor.customConfig.zIndex = 0
 editor.customConfig.uploadImgShowBase64 = true
 editor.customConfig.onchange = function (html) {
-    $('input[name=$name]').val(html);
+    $('input[name=\'$name\']').val(html);
 }
 editor.create()
 
@@ -141,7 +141,7 @@ class CKEditor extends Field
 
     public function render()
     {
-        $this->script = "$('textarea.{$this->getElementClass()}').ckeditor();";
+        $this->script = "$('textarea.{$this->getElementClassString()}').ckeditor();";
 
         return parent::render();
     }

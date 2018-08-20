@@ -15,6 +15,56 @@ $grid->filter(function($filter){
 });
 
 ```
+
+## v1.5.18更新内容
+
+`v1.5.8`版本对过滤查询做了下面的调整和更新
+
+### 样式调整
+
+> v1.5.18版本及以上支持
+
+对过滤查询面板的样式做了调整，从原来的弹出modal改为嵌入表格头部，通过点击筛选按钮展开显示，默认是不展开的，用下面的方式可以让它默认展开：
+
+```php
+
+// 在`$grid`实例上操作
+$grid->expandFilter();
+
+// 或者在filter回调里面操作`$filter`实例
+$filter->expand();
+
+```
+
+效果参考[Demo](http://laravel-admin.org/demo/posts)
+
+### 定义查询范围
+
+> v1.5.18版本及以上支持
+
+可以把你最常用的查询定义为一个查询范围，它将会出现在筛选按钮的下拉菜单中，下面是几个例子：
+```php
+
+$filter->scope('male', '男性')->where('gender', 'm');
+
+// 多条件查询
+$filter->scope('new', '最近修改')
+    ->whereDate('created_at', date('Y-m-d'))
+    ->orWhere('updated_at', date('Y-m-d'));
+
+// 关联关系查询
+$filter->scope('address')->whereHas('profile', function ($query) {
+    $query->whereNotNull('address');
+});
+
+$filter->scope('trashed', '被软删除的数据')->onlyTrashed();
+
+```
+
+`scope`方法第一个参数为查询的key, 会出现的url参数中，第二个参数是下拉菜单项的label, 如果不填，第一个参数会作为label显示
+
+`scope`方法可以链式调用任何`eloquent`查询条件，效果参考[Demo](http://laravel-admin.org/demo/posts)
+
 ## 查询类型
 
 目前支持的过滤类型有下面这些:
@@ -234,5 +284,28 @@ $filter->equal('column')->month();
 
 // `year()` 相当于 `datetime(['format' => 'YYYY'])`
 $filter->equal('column')->year();
+
+```
+
+## 复杂查询过滤器
+ 
+您可以使用`$this->input()`来触发复杂的自定义查询：
+
+```php
+$filter->where(function ($query) {
+    switch ($this->input) {
+        case 'yes':
+            // custom complex query if the 'yes' option is selected
+            $query->has('somerelationship');
+            break;
+        case 'no':
+            $query->doesntHave('somerelationship');
+            break;
+    }
+}, 'Label of the field', 'name_for_url_shortcut')->radio([
+    '' => 'All',
+    'yes' => 'Only with relationship',
+    'no' => 'Only without relationship',
+]);
 
 ```

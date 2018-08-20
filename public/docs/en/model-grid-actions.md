@@ -6,6 +6,7 @@
  $grid->actions(function ($actions) {
     $actions->disableDelete();
     $actions->disableEdit();
+    $actions->disableView();
 });
 ```
 You can get the data for the current row by `$actions` parameter passed in:
@@ -30,7 +31,7 @@ $grid->actions(function ($actions) {
 
     // prepend an action.
     $actions->prepend('<a href=""><i class="fa fa-paper-plane"></i></a>');
-}
+});
 ```
 
 If you have more complex actions, you can refer to the following ways:
@@ -85,5 +86,5 @@ $grid->actions(function ($actions) {
     
     // add action
     $actions->append(new CheckRow($actions->getKey()));
-}
+});
 ```

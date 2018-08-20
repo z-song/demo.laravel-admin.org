@@ -1,4 +1,15 @@
-# Change log
+# Release Notes
+
+## v1.5.18 (2018-08-10)
+
+- 重构了grid过滤器的样式，增加`scope`查询支持
+- `Model-show`支持将字段显示为文件样式
+- 修改在`Model-grid`中的`editable`空字段的显示样式
+- 支持`Model-grid`中的二维数组字段显示为表格
+
+## v1.5.16 (2018-08-3)
+
+- 增加`Model-show`，支持显示数据详情
 
 ## v1.2.9、v1.3.3、v1.4.1
 

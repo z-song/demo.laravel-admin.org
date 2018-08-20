@@ -46,4 +46,4 @@ $router->resource('users', UserController::class);
 
 ## 创建表格表单
 
-剩下的工作就是构建数据表格和表单了，打开 `app/Admin/Contollers/UserController.php`,找到`form()`和`grid()`方法，然添加构建代码更多详细使用请查看[model-grid](/zh/model-grid.md)和[model-form](/zh/model-form.md)。
+剩下的工作就是构建数据表格和表单了，打开 `app/Admin/Contollers/UserController.php`,找到`show()`、`grid()`和`form()`方法，然添加构建代码更多详细使用请查看[model-grid](/zh/model-grid.md)和[model-form](/zh/model-form.md)。
