@@ -4,27 +4,25 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\MultipleImage;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Controllers\ModelForm;
 
 class MultipleImageController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Multiple images upload');
-            $content->body($this->grid());
-        });
+        return $content
+            ->header('Multiple images upload')
+            ->body($this->grid());
     }
 
     /**
@@ -33,12 +31,11 @@ class MultipleImageController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-            $content->header('Multiple images upload');
-            $content->body($this->form()->edit($id));
-        });
+        return $content
+            ->header('Multiple images upload')
+            ->body($this->form()->edit($id));
     }
 
     /**
@@ -46,15 +43,12 @@ class MultipleImageController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('Multiple images upload');
-            $content->description('description');
-
-            $content->body($this->form());
-        });
+        return $content
+            ->header('Multiple images upload')
+            ->description('description')
+            ->body($this->form());
     }
 
     /**
@@ -64,17 +58,18 @@ class MultipleImageController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(MultipleImage::class, function (Grid $grid) {
+        $grid = new Grid(new MultipleImage());
 
-            $grid->id('ID')->sortable();
+        $grid->id('ID')->sortable();
 
-            $grid->title()->editable();
+        $grid->title()->editable();
 
-            $grid->pictures()->image();
+        $grid->pictures()->image();
 
-            $grid->created_at();
-            $grid->updated_at();
-        });
+        $grid->created_at();
+        $grid->updated_at();
+
+        return $grid;
     }
 
     /**
@@ -84,15 +79,16 @@ class MultipleImageController extends Controller
      */
     protected function form()
     {
-        return Admin::form(MultipleImage::class, function (Form $form) {
+        $form = new Form(new MultipleImage());
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->text('title')->rules('required');
-            $form->multipleImage('pictures');
+        $form->text('title')->rules('required');
+        $form->multipleImage('pictures');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
-        });
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
+
+        return $form;
     }
 }

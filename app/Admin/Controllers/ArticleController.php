@@ -3,31 +3,27 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Article;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
 
 class ArticleController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('Orderable articles');
-            $content->description('description');
-
-            $content->body($this->grid());
-        });
+        return $content
+            ->header('Orderable articles')
+            ->description('description')
+            ->body($this->grid());
     }
 
     /**
@@ -36,15 +32,12 @@ class ArticleController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('Orderable articles');
-            $content->description('description');
-
-            $content->body($this->form()->edit($id));
-        });
+        return $content
+            ->header('Orderable articles')
+            ->description('description')
+            ->body($this->form()->edit($id));
     }
 
     /**
@@ -52,15 +45,12 @@ class ArticleController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('Orderable articles');
-            $content->description('description');
-
-            $content->body($this->form());
-        });
+        return $content
+            ->header('Orderable articles')
+            ->description('description')
+            ->body($this->form());
     }
 
     /**
@@ -70,21 +60,22 @@ class ArticleController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Article::class, function (Grid $grid) {
+        $grid = new Grid(new Article());
 
-            $grid->model()->ordered();
+        $grid->model()->ordered();
 
-            $grid->id('ID')->sortable();
+        $grid->id('ID')->sortable();
 
-            $grid->title()->editable();
-            $grid->content()->editable();
-            $grid->picture()->image();
+        $grid->title()->editable();
+        $grid->content()->editable();
+        $grid->picture()->image();
 
-            $grid->order()->orderable();
+        $grid->order()->orderable();
 
-            $grid->created_at();
-            $grid->updated_at();
-        });
+        $grid->created_at();
+        $grid->updated_at();
+
+        return $grid;
     }
 
     /**
@@ -94,16 +85,17 @@ class ArticleController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Article::class, function (Form $form) {
+        $form = new Form(new Article());
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->text('title')->rules('required');
-            $form->textarea('content')->rules('required');
-            $form->image('picture');
+        $form->text('title')->rules('required');
+        $form->textarea('content')->rules('required');
+        $form->image('picture');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
-        });
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
+
+        return $form;
     }
 }

@@ -3,28 +3,27 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Painter;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
 
 class PainterController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Painters');
-            $content->body($this->grid());
-        });
+        return $content
+            ->header('Painters')
+            ->body($this->grid());
     }
 
     /**
@@ -33,14 +32,11 @@ class PainterController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('Edit painters');
-
-            $content->body($this->form()->edit($id));
-        });
+        return $content
+            ->header('Edit painters')
+            ->body($this->form()->edit($id));
     }
 
     /**
@@ -48,14 +44,11 @@ class PainterController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('Create painters');
-
-            $content->body($this->form());
-        });
+        return $content
+            ->header('Create painters')
+            ->body($this->form());
     }
 
     /**
@@ -65,20 +58,21 @@ class PainterController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Painter::class, function (Grid $grid) {
+        $grid = new Grid(new Painter());
 
-            $grid->id('ID')->sortable();
+        $grid->id('ID')->sortable();
 
-            $grid->username()->editable();
-            //$grid->bio()->editable('textarea');
+        $grid->username()->editable();
+        //$grid->bio()->editable('textarea');
 
-            $grid->paintings()->pluck('title')->map(function ($title) {
-                return "<strong><i>《 $title 》</i></strong>";
-            })->implode('<br />');
+        $grid->paintings()->pluck('title')->map(function ($title) {
+            return "<strong><i>《 $title 》</i></strong>";
+        })->implode('<br />');
 
-            $grid->created_at();
-            $grid->updated_at();
-        });
+        $grid->created_at();
+        $grid->updated_at();
+
+        return $grid;
     }
 
     /**
@@ -88,21 +82,22 @@ class PainterController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Painter::class, function (Form $form) {
+        $form = new Form(new Painter());
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->text('username')->rules('required');
-            $form->textarea('bio')->rules('required');
+        $form->text('username')->rules('required');
+        $form->textarea('bio')->rules('required');
 
-            $form->hasMany('paintings', '他的作品', function (Form\NestedForm $form) {
-                $form->text('title');//->rules('required');
-                $form->textarea('body');
-                $form->datetime('completed_at');
-            });
-
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+        $form->hasMany('paintings', '他的作品', function (Form\NestedForm $form) {
+            $form->text('title');//->rules('required');
+            $form->textarea('body');
+            $form->datetime('completed_at');
         });
+
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
+
+        return $form;
     }
 }

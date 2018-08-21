@@ -6,25 +6,21 @@ use App\Admin\Extensions\Tools\GridView;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\User;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Layout\Content;
 use Illuminate\Support\Facades\Request;
 
 class ImageController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('Images');
-
-            $content->body($this->grid());
-        });
+        return $content
+            ->header('Images')
+            ->body($this->grid());
     }
 
     /**
@@ -32,63 +28,59 @@ class ImageController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Images');
-            $content->description(trans('admin::lang.create'));
-
-            $content->body($this->form());
-        });
+        return $content
+            ->header('Images')
+            ->description(trans('admin::lang.create'))
+            ->body($this->form());
     }
 
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('Images');
-            $content->description('Edit');
-
-            $content->body($this->form()->edit($id));
-        });
+        return $content
+            ->header('Images')
+            ->description('Edit')
+            ->body($this->form()->edit($id));
     }
 
     protected function grid()
     {
-        return Admin::grid(Image::class, function (Grid $grid) {
+        $grid = new Grid(new Image);
 
-            $grid->id('ID');
-            $grid->author()->name();
-            $grid->caption()->limit(20);
+        $grid->id('ID');
+        $grid->author()->name();
+        $grid->caption()->limit(20);
 
-            $grid->image()->image();
+        $grid->image()->image();
 
-            $grid->created_at();
+        $grid->created_at();
 
-            $grid->tools(function ($tools) {
-                $tools->append(new GridView());
-            });
-
-            if (Request::get('view') !== 'table') {
-                $grid->setView('admin.grid.card');
-            }
-
+        $grid->tools(function ($tools) {
+            $tools->append(new GridView());
         });
+
+        if (Request::get('view') !== 'table') {
+            $grid->setView('admin.grid.card');
+        }
+
+        return $grid;
     }
 
     public function form()
     {
-        return Admin::form(Image::class, function (Form $form) {
+        $form = new Form(new Image());
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->text('caption');
-            $form->select('uploader')->options(User::all()->pluck('name', 'id'));
+        $form->text('caption');
+        $form->select('uploader')->options(User::all()->pluck('name', 'id'));
 
-            $form->image('image')->flip('v')->rules('required');
+        $form->image('image')->flip('v')->rules('required');
 
-            $form->display('created_at');
-            $form->display('updated_at');
-        });
+        $form->display('created_at');
+        $form->display('updated_at');
+
+        return $form;
     }
 }

@@ -42,55 +42,55 @@ class PostController extends Controller
             ->description('Post详情')
             ->body(Admin::show(Post::findOrFail($id), function (Show $show) {
 
-            $show->panel()
-                ->style('danger')
-                ->title('post基本信息')
-                ->tools(function ($tools) {
-//                        $tools->disableEdit();
-                });;
+                $show->panel()
+                    ->style('danger')
+                    ->title('post基本信息')
+                    ->tools(function ($tools) {
+    //                        $tools->disableEdit();
+                    });;
 
-            $show->title()->foo();
-            $show->content()->json();
-            $show->rate();
-            $show->created_at();
-            $show->updated_at();
-            $show->release_at();
+                $show->title()->foo();
+                $show->content()->json();
+                $show->rate();
+                $show->created_at();
+                $show->updated_at();
+                $show->release_at();
 
-            $show->divider();
+                $show->divider();
 
-            $show->tags('标签')->as(function ($tags) {
-                return $tags->pluck('name');
-            })->badge();
+                $show->tags('标签')->as(function ($tags) {
+                    return $tags->pluck('name');
+                })->badge();
 
-            $show->author('作者信息', function ($author) {
+                $show->author('作者信息', function ($author) {
 
-                $author->setResource('/demo/users');
+                    $author->setResource('/demo/users');
 
-                $author->id();
-                $author->name();
-                $author->email();
-                $author->avatar();
-                $author->profile()->age();
-                $author->profile()->gender('性别')->using(['m' => '女', 'f' => '男'], '未知');
+                    $author->id();
+                    $author->name();
+                    $author->email();
+                    $author->avatar();
+                    $author->profile()->age();
+                    $author->profile()->gender('性别')->using(['m' => '女', 'f' => '男'], '未知');
 
-                $author->panel()->tools(function ($tools) {
-                    $tools->disableDelete();
+                    $author->panel()->tools(function ($tools) {
+                        $tools->disableDelete();
+                    });
                 });
-            });
 
-            $show->comments('评论', function ($line) {
+                $show->comments('评论', function ($line) {
 
-                $line->resource('/demo/post-comments');
+                    $line->resource('/demo/post-comments');
 
-                $line->id();
-                $line->content()->limit(10);
-                $line->created_at();
-                $line->updated_at();
+                    $line->id();
+                    $line->content()->limit(10);
+                    $line->created_at();
+                    $line->updated_at();
 
-                $line->filter(function ($filter) {
-                    $filter->like('content');
+                    $line->filter(function ($filter) {
+                        $filter->like('content');
+                    });
                 });
-            });
         }));
     }
 
@@ -100,16 +100,13 @@ class PostController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('header');
-            $content->description('description');
-
-            $content->row($this->form()->edit($id));
-
-            $content->row(Admin::grid(PostComment::class, function (Grid $grid) use ($id) {
+        return $content
+            ->header('header')
+            ->description('description')
+            ->row($this->form()->edit($id))
+            ->row(Admin::grid(PostComment::class, function (Grid $grid) use ($id) {
 
                 $grid->setName('comments')
                     ->setTitle('Comments')
@@ -122,7 +119,6 @@ class PostController extends Controller
                 $grid->updated_at();
 
             }));
-        });
     }
 
     /**
@@ -145,84 +141,84 @@ class PostController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Post::class, function (Grid $grid) {
+        $grid = new Grid(new Post());
 
-            $grid->expandFilter();
+//        $grid->expandFilter();
 
-            $grid->id('ID')->sortable();
+        $grid->id('ID')->sortable();
 
-            $grid->title()->ucfirst()->limit(30);
+        $grid->title()->ucfirst()->limit(30);
 
-            $grid->tags()->pluck('name')->label();
+        $grid->tags()->pluck('name')->label();
 
-            $states = [
-                'on' => ['text' => 'YES'],
-                'off' => ['text' => 'NO'],
-            ];
+        $states = [
+            'on' => ['text' => 'YES'],
+            'off' => ['text' => 'NO'],
+        ];
 
-            $grid->released()->switch($states);
+        $grid->released()->switch($states);
 
-            $grid->rate()->display(function ($rate) {
-                $html = "<i class='fa fa-star' style='color:#ff8913'></i>";
+        $grid->rate()->display(function ($rate) {
+            $html = "<i class='fa fa-star' style='color:#ff8913'></i>";
 
-                if ($rate < 1) {
-                    return '';
-                }
+            if ($rate < 1) {
+                return '';
+            }
 
-                return join('&nbsp;', array_fill(0, min(5, $rate), $html));
-            });
+            return join('&nbsp;', array_fill(0, min(5, $rate), $html));
+        });
 
-            $grid->column('float_bar')->floatBar();
+        $grid->column('float_bar')->floatBar();
 
-            $grid->column('Comments')->display(function () {
-                return $this->comments()->take(5)->get(['id', 'content', 'created_at'])->toArray();
-            })->table();
+        $grid->column('Comments')->display(function () {
+            return $this->comments()->take(5)->get(['id', 'content', 'created_at'])->toArray();
+        })->table();
 
-            $grid->created_at();
+        $grid->created_at();
 
-            $grid->rows(function (Grid\Row $row) {
-                if ($row->id % 2) {
+        $grid->rows(function (Grid\Row $row) {
+            if ($row->id % 2) {
 //                    $row->setAttributes(['style' => 'color:red;']);
-                }
-            });
+            }
+        });
 
-            $grid->filter(function (Grid\Filter $filter) {
+        $grid->filter(function (Grid\Filter $filter) {
 
-                $filter->like('title');
+            $filter->like('title');
 
-                $filter->equal('created_at')->datetime();
+            $filter->equal('created_at')->datetime();
 
-                $filter->between('updated_at')->datetime();
+            $filter->between('updated_at')->datetime();
 
-                $filter->between('rate');
+            $filter->between('rate');
 
-                $filter->where(function ($query) {
+            $filter->where(function ($query) {
 
-                    $input = $this->input;
+                $input = $this->input;
 
-                    $query->whereHas('tags', function ($query) use ($input) {
-                        $query->where('name', $input);
-                    });
-
-                }, 'Has tag', 'tag');
-
-                $filter->scope('trashed')->onlyTrashed();
-                $filter->scope('hot')->where('rate', '>', 3);
-                $filter->scope('released')->where('released', 1);
-                $filter->scope('new', 'Updated today')->whereDate('updated_at', date('Y-m-d'));
-            });
-
-            $grid->tools(function ($tools) {
-
-                $tools->batch(function (Grid\Tools\BatchActions $batch) {
-
-                    $batch->add('Restore', new RestorePost());
-                    $batch->add('Release', new ReleasePost(1));
-                    $batch->add('Unrelease', new ReleasePost(0));
-                    $batch->add('Show selected', new ShowSelected());
+                $query->whereHas('tags', function ($query) use ($input) {
+                    $query->where('name', $input);
                 });
 
+            }, 'Has tag', 'tag');
+
+            $filter->scope('trashed')->onlyTrashed();
+            $filter->scope('hot')->where('rate', '>', 3);
+            $filter->scope('released')->where('released', 1);
+            $filter->scope('new', 'Updated today')->whereDate('updated_at', date('Y-m-d'));
+        });
+
+        $grid->tools(function ($tools) {
+
+            $tools->batch(function (Grid\Tools\BatchActions $batch) {
+
+                $batch->add('Restore', new RestorePost());
+                $batch->add('Release', new ReleasePost(1));
+                $batch->add('Unrelease', new ReleasePost(0));
+                $batch->add('Show selected', new ShowSelected());
             });
+
+        });
 
 //            $grid->footer(function (Grid\Tools\Footer $footer) {
 //
@@ -234,7 +230,7 @@ class PostController extends Controller
 //            });
 
 //            $grid->exporter(new CustomExporter());
-        });
+        return $grid;
     }
 
     protected function _form()
@@ -279,39 +275,40 @@ class PostController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Post::class, function (Form $form) {
+        $form = new Form(new Post);
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->text('title')->default('hello');
+        $form->text('title')->default('hello');
 
-            $form->select('author_id')->options(function ($id) {
-                $user = User::find($id);
+        $form->select('author_id')->options(function ($id) {
+            $user = User::find($id);
 
-                if ($user) {
-                    return [$user->id => $user->name];
-                }
-            })->ajax('/demo/api/users');
+            if ($user) {
+                return [$user->id => $user->name];
+            }
+        })->ajax('/demo/api/users');
 
-            $form->editor('content');
+        $form->editor('content');
 
-            $form->number('rate');
-            $form->switch('released');
+        $form->number('rate');
+        $form->switch('released');
 
-            $form->listbox('tags')->options(Tag::all()->pluck('name', 'id'))->settings(['selectorMinimalHeight' => 300]);
+        $form->listbox('tags')->options(Tag::all()->pluck('name', 'id'))->settings(['selectorMinimalHeight' => 300]);
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
 
-            $form->tools(function (Form\Tools $tools) {
+        $form->tools(function (Form\Tools $tools) {
 
 //                $tools->disableList();
 //                $tools->disableDelete();
 //                $tools->disableView();
 
 //                $tools->append('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
-            });
         });
+
+        return $form;
     }
 
     /**

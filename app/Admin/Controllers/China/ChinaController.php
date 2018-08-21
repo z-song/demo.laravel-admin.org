@@ -4,7 +4,6 @@ namespace App\Admin\Controllers\China;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChinaArea;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Widgets\Box;
 use Encore\Admin\Widgets\Form;
@@ -14,39 +13,38 @@ use Illuminate\Support\Facades\DB;
 
 class ChinaController extends Controller
 {
-    public function cascading(Request $request)
+    public function cascading(Request $request, Content $content)
     {
-        return Admin::content(function (Content $content) use ($request) {
+        $content->header('Cascading select');
 
-            $content->header('Cascading select');
+        $form = new Form($request->all());
+        $form->method('GET');
+        $form->action('/demo/china/cascading-select');
 
-            $form = new Form($request->all());
-            $form->method('GET');
-            $form->action('/demo/china/cascading-select');
+        $form->select('province')->options(
 
-            $form->select('province')->options(
+            ChinaArea::province()->pluck('name', 'id')
 
-                ChinaArea::province()->pluck('name', 'id')
+        )->load('city', '/demo/api/china/city');
 
-            )->load('city', '/demo/api/china/city');
+        $form->select('city')->options(function ($id) {
 
-            $form->select('city')->options(function ($id) {
+            return ChinaArea::options($id);
 
-                return ChinaArea::options($id);
+        })->load('district', '/demo/api/china/district');
 
-            })->load('district', '/demo/api/china/district');
+        $form->select('district')->options(function ($id) {
 
-            $form->select('district')->options(function ($id) {
+            return ChinaArea::options($id);
 
-                return ChinaArea::options($id);
-
-            });
-            $content->row(new Box('Form', $form));
-
-            if ($request->has('province')) {
-                $content->row(new Box('Query', new Table(['key', 'value'], $request->only(['province', 'city', 'district']))));
-            }
         });
+        $content->row(new Box('Form', $form));
+
+        if ($request->has('province')) {
+            $content->row(new Box('Query', new Table(['key', 'value'], $request->only(['province', 'city', 'district']))));
+        }
+
+        return $content;
     }
 
     public function city(Request $request)

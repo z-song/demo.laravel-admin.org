@@ -4,29 +4,27 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
 
 class CategoryController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('All categories');
-
-            $content->body($this->tree());
-        });
+        return $content
+            ->header('All categories')
+            ->body($this->tree());
     }
 
     /**
@@ -35,12 +33,11 @@ class CategoryController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-            $content->header('Edit category');
-            $content->body($this->form()->edit($id));
-        });
+        return $content
+            ->header('Edit category')
+            ->body($this->form()->edit($id));
     }
 
     /**
@@ -48,18 +45,17 @@ class CategoryController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Create new category');
-            $content->body($this->form());
-        });
+        return $content
+            ->header('Create new category')
+            ->body($this->form());
     }
 
     /**
      * Make a grid builder.
      *
-     * @return Grid
+     * @return Tree
      */
     protected function tree()
     {
@@ -74,7 +70,6 @@ class CategoryController extends Controller
                 return "{$branch['id']} - {$branch['title']} $logo";
 
             });
-
         });
     }
 
@@ -85,18 +80,19 @@ class CategoryController extends Controller
      */
     protected function form()
     {
-        return Category::form(function (Form $form) {
+        $form = new Form(new Category());
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->select('parent_id')->options(Category::selectOptions());
+        $form->select('parent_id')->options(Category::selectOptions());
 
-            $form->text('title')->rules('required');
-            $form->textarea('desc')->rules('required');
-            $form->image('logo');
+        $form->text('title')->rules('required');
+        $form->textarea('desc')->rules('required');
+        $form->image('logo');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
-        });
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
+
+        return $form;
     }
 }

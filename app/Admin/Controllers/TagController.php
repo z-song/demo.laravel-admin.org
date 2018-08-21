@@ -3,29 +3,27 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Tag;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
 
 class TagController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Tags');
-            $content->description('All tags');
-            $content->body($this->grid());
-        });
+        return $content
+            ->header('Tags')
+            ->description('All tags')
+            ->body($this->grid());
     }
 
     /**
@@ -34,14 +32,12 @@ class TagController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('Tags');
-            $content->description('Edit tags');
-            $content->body($this->form()->edit($id));
-        });
+        return $content
+            ->header('Tags')
+            ->description('Edit tags')
+            ->body($this->form()->edit($id));
     }
 
     /**
@@ -49,13 +45,12 @@ class TagController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Tags');
-            $content->description('Create tags');
-            $content->body($this->form());
-        });
+        return $content
+            ->header('Tags')
+            ->description('Create tags')
+            ->body($this->form());
     }
 
     /**
@@ -65,35 +60,36 @@ class TagController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Tag::class, function (Grid $grid) {
+        $grid = new Grid(new Tag());
 
-            $grid->id('ID')->sortable();
+        $grid->id('ID')->sortable();
 
-            $grid->name()->editable();
+        $grid->name()->editable();
 
-            $grid->options()->checkbox([
-                1 => 'Sed ut perspiciatis unde omni',
-                2 => 'voluptatem accusantium doloremque',
-                3 => 'dicta sunt explicabo',
-                4 => 'laudantium, totam rem aperiam',
-            ]);
+        $grid->options()->checkbox([
+            1 => 'Sed ut perspiciatis unde omni',
+            2 => 'voluptatem accusantium doloremque',
+            3 => 'dicta sunt explicabo',
+            4 => 'laudantium, totam rem aperiam',
+        ]);
 
-            $states = [
-                'on' => ['text' => 'YES'],
-                'off' => ['text' => 'NO'],
-            ];
+        $states = [
+            'on' => ['text' => 'YES'],
+            'off' => ['text' => 'NO'],
+        ];
 
-            $grid->column('switch_group')->switchGroup([
-                'recommend' => '推荐', 'hot' => '热门', 'new' => '最新'
-            ], $states);
+        $grid->column('switch_group')->switchGroup([
+            'recommend' => '推荐', 'hot' => '热门', 'new' => '最新'
+        ], $states);
 
-            $grid->created_at();
-            $grid->updated_at();
+        $grid->created_at();
+        $grid->updated_at();
 
-            $grid->filter(function ($filter) {
-                $filter->between('updated_at')->datetime();
-            });
+        $grid->filter(function ($filter) {
+            $filter->between('updated_at')->datetime();
         });
+
+        return $grid;
     }
 
     /**
@@ -103,25 +99,26 @@ class TagController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Tag::class, function (Form $form) {
+        $form = new Form(new Tag());
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->text('name')->rules('required');
+        $form->text('name')->rules('required');
 
-            $form->checkbox('options')->options([
-                1 => 'Sed ut perspiciatis unde omni',
-                2 => 'voluptatem accusantium doloremque',
-                3 => 'dicta sunt explicabo',
-                4 => 'laudantium, totam rem aperiam',
-            ])->stacked();
+        $form->checkbox('options')->options([
+            1 => 'Sed ut perspiciatis unde omni',
+            2 => 'voluptatem accusantium doloremque',
+            3 => 'dicta sunt explicabo',
+            4 => 'laudantium, totam rem aperiam',
+        ])->stacked();
 
-            $form->switch('recommend');
-            $form->switch('hot');
-            $form->switch('new');
+        $form->switch('recommend');
+        $form->switch('hot');
+        $form->switch('new');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
-        });
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
+
+        return $form;
     }
 }

@@ -4,29 +4,28 @@ namespace App\Admin\Controllers\China;
 
 use App\Models\ChinaArea;
 
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
 
 class DistrictController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('District');
-            $content->description('description');
-            $content->body($this->grid());
-        });
+        $content->header('District');
+        $content->description('description');
+        $content->body($this->grid());
+
+        return $content;
     }
 
     /**
@@ -35,13 +34,13 @@ class DistrictController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-            $content->header('District');
-            $content->description('description');
-            $content->body($this->form()->edit($id));
-        });
+        $content->header('District');
+        $content->description('description');
+        $content->body($this->form()->edit($id));
+
+        return $content;
     }
 
     /**
@@ -49,13 +48,13 @@ class DistrictController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Country');
-            $content->description('description');
-            $content->body($this->form());
-        });
+        $content->header('Country');
+        $content->description('description');
+        $content->body($this->form());
+
+        return $content;
     }
 
     /**
@@ -65,21 +64,22 @@ class DistrictController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(ChinaArea::class, function (Grid $grid) {
+        $grid = new Grid(new ChinaArea());
 
-            $grid->model()->district();
+        $grid->model()->district();
 
-            $grid->name()->editable();
+        $grid->name()->editable();
 
-            $grid->parent()->name('City');
+        $grid->parent()->name('City');
 
-            $grid->filter(function ($filter) {
-                $filter->like('name');
-            });
-
-            $grid->disableActions();
-            $grid->disableCreation();
+        $grid->filter(function ($filter) {
+            $filter->like('name');
         });
+
+        $grid->disableActions();
+        $grid->disableCreation();
+
+        return $grid;
     }
 
     /**
@@ -89,10 +89,11 @@ class DistrictController extends Controller
      */
     protected function form()
     {
-        return Admin::form(ChinaArea::class, function (Form $form) {
+        $form = new Form(new ChinaArea());
 
-            $form->display('id');
-            $form->text('name');
-        });
+        $form->display('id');
+        $form->text('name');
+
+        return $form;
     }
 }

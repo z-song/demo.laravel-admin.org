@@ -4,59 +4,55 @@ namespace App\Admin\Controllers\Subway;
 
 use App\Models\Subway\Stop;
 
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Show;
 
 class StopController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
+        $content->header('header');
+        $content->description('description');
 
-            $content->header('header');
-            $content->description('description');
-
-            $content->row(function($row) {
-                $row->column(10, $this->grid());
-                $row->column(2, view('admin.grid.subway'));
-            });
+        $content->row(function($row) {
+            $row->column(10, $this->grid());
+            $row->column(2, view('admin.grid.subway'));
         });
+
+        return $content;
     }
 
-    public function show($id)
+    public function show($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        $content->header('Lines');
+        $content->description('线路详情');
 
-            $content->header('Lines');
-            $content->description('线路详情');
+        $content->body(Admin::show(Stop::findOrFail($id), function (Show $show) {
 
-            $content->body(Admin::show(Stop::findOrFail($id), function (Show $show) {
+            $show->name();
+            $show->uid();
+            $show->lat();
+            $show->lng();
 
-                $show->name();
-                $show->uid();
-                $show->lat();
-                $show->lng();
+            $show->line(function ($line) {
+                $line->name();
+                $line->uid();
+            });
+        }));
 
-                $show->line(function ($line) {
-                    $line->name();
-                    $line->uid();
-                });
-
-
-            }));
-        });
+        return $content;
     }
 
     /**
@@ -65,15 +61,14 @@ class StopController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        $content->header('header');
+        $content->description('description');
 
-            $content->header('header');
-            $content->description('description');
+        $content->body($this->form()->edit($id));
 
-            $content->body($this->form()->edit($id));
-        });
+        return $content;
     }
 
     /**
@@ -81,15 +76,14 @@ class StopController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
+        $content->header('header');
+        $content->description('description');
 
-            $content->header('header');
-            $content->description('description');
+        $content->body($this->form());
 
-            $content->body($this->form());
-        });
+        return $content;
     }
 
     /**
@@ -99,26 +93,27 @@ class StopController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Stop::class, function (Grid $grid) {
+        $grid = new Grid(new Stop());
 
-            $grid->id('ID')->sortable();
+        $grid->id('ID')->sortable();
 
-            $grid->name();
+        $grid->name();
 
-            $grid->line()->name();
+        $grid->line()->name();
 
-            $grid->column('position')->openMap(function () {
-                return [$this->lat/100000, $this->lng/100000];
-            }, 'Position');
+        $grid->column('position')->openMap(function () {
+            return [$this->lat/100000, $this->lng/100000];
+        }, 'Position');
 
-            $grid->created_at();
-            $grid->updated_at();
+        $grid->created_at();
+        $grid->updated_at();
 
-            $grid->filter(function ($filter) {
-                $filter->expand();
-                $filter->like('name', 'Name');
-            });
+        $grid->filter(function ($filter) {
+            $filter->expand();
+            $filter->like('name', 'Name');
         });
+
+        return $grid;
     }
 
     /**
@@ -128,12 +123,13 @@ class StopController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Stop::class, function (Form $form) {
+        $form = new Form(new Stop());
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
-        });
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
+
+        return $form;
     }
 }

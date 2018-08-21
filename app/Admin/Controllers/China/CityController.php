@@ -3,29 +3,28 @@
 namespace App\Admin\Controllers\China;
 
 use App\Models\ChinaArea;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
 
 class CityController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('City');
-            $content->description('description');
-            $content->body($this->grid());
-        });
+        $content->header('City');
+        $content->description('description');
+        $content->body($this->grid());
+
+        return $content;
     }
 
     /**
@@ -34,13 +33,13 @@ class CityController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-            $content->header('City');
-            $content->description('description');
-            $content->body($this->form()->edit($id));
-        });
+        $content->header('City');
+        $content->description('description');
+        $content->body($this->form()->edit($id));
+
+        return $content;
     }
 
     /**
@@ -48,13 +47,13 @@ class CityController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Country');
-            $content->description('description');
-            $content->body($this->form());
-        });
+        $content->header('Country');
+        $content->description('description');
+        $content->body($this->form());
+
+        return $content;
     }
 
     /**
@@ -64,22 +63,23 @@ class CityController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(ChinaArea::class, function (Grid $grid) {
+        $grid = new Grid(new ChinaArea());
 
-            $grid->model()->city();
+        $grid->model()->city();
 
-            $grid->name()->editable();
+        $grid->name()->editable();
 
-            $grid->children('District')->pluck('name')->label();
+        $grid->children('District')->pluck('name')->label();
 
-            $grid->filter(function ($filter) {
-                $filter->like('name');
-                $filter->equal('parent_id', 'Province')->select(ChinaArea::province()->pluck('name', 'id'));
-            });
-
-            $grid->disableActions();
-            $grid->disableCreation();
+        $grid->filter(function ($filter) {
+            $filter->like('name');
+            $filter->equal('parent_id', 'Province')->select(ChinaArea::province()->pluck('name', 'id'));
         });
+
+        $grid->disableActions();
+        $grid->disableCreation();
+
+        return $grid;
     }
 
     /**
@@ -89,10 +89,11 @@ class CityController extends Controller
      */
     protected function form()
     {
-        return Admin::form(ChinaArea::class, function (Form $form) {
+        $form = new Form(new ChinaArea());
 
-            $form->display('id');
-            $form->text('name');
-        });
+        $form->display('id');
+        $form->text('name');
+
+        return $form;
     }
 }

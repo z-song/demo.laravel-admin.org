@@ -4,68 +4,64 @@ namespace App\Admin\Controllers\Subway;
 
 use App\Models\Subway\Line;
 
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Show;
 
 class LineController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
      *
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('header');
-            $content->description('description');
-
-            $content->row(function($row) {
+        return $content
+            ->header('header')
+            ->description('description')
+            ->row(function($row) {
                 $row->column(10, $this->grid());
                 $row->column(2, view('admin.grid.subway'));
             });
-        });
     }
 
-    public function show($id)
+    public function show($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        $content->header('Lines');
+        $content->description('线路详情');
 
-            $content->header('Lines');
-            $content->description('线路详情');
+        $content->body(Admin::show(Line::findOrFail($id), function (Show $show) {
 
-            $content->body(Admin::show(Line::findOrFail($id), function (Show $show) {
+            $show->name();
+            $show->uid();
+            $show->city()->cn_name();
 
-                $show->name();
-                $show->uid();
-                $show->city()->cn_name();
+            $show->stops('地铁线', function ($stop) {
 
-                $show->stops('地铁线', function ($stop) {
+                $stop->resource('/demo/subway/stops');
 
-                    $stop->resource('/demo/subway/stops');
+                $stop->id();
+                $stop->name();
+                $stop->uid();
 
-                    $stop->id();
-                    $stop->name();
-                    $stop->uid();
+                $stop->column('position')->openMap(function () {
+                    return [$this->lat/100000, $this->lng/100000];
+                }, 'Position');
 
-                    $stop->column('position')->openMap(function () {
-                        return [$this->lat/100000, $this->lng/100000];
-                    }, 'Position');
+                $stop->created_at();
+                $stop->updated_at();
 
-                    $stop->created_at();
-                    $stop->updated_at();
+            });
+        }));
 
-                });
-            }));
-        });
+        return $content;
     }
 
     /**
@@ -74,15 +70,14 @@ class LineController extends Controller
      * @param $id
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        $content->header('header');
+        $content->description('description');
 
-            $content->header('header');
-            $content->description('description');
+        $content->body($this->form()->edit($id));
 
-            $content->body($this->form()->edit($id));
-        });
+        return $content;
     }
 
     /**
@@ -90,15 +85,14 @@ class LineController extends Controller
      *
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
+        $content->header('header');
+        $content->description('description');
 
-            $content->header('header');
-            $content->description('description');
+        $content->body($this->form());
 
-            $content->body($this->form());
-        });
+        return $content;
     }
 
     /**
@@ -108,11 +102,11 @@ class LineController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Line::class, function (Grid $grid) {
+        $grid = new Grid(new Line());
 
-            $grid->id('ID')->sortable();
+        $grid->id('ID')->sortable();
 
-            $grid->name();
+        $grid->name();
 
 //            $grid->uid();
 //            $grid->pair_uid();
@@ -120,16 +114,17 @@ class LineController extends Controller
 //                return array_column($lines, 'name');
 //            })->implode('</br>');
 
-            $grid->city()->cn_name();
+        $grid->city()->cn_name();
 
-            $grid->created_at();
-            $grid->updated_at();
+        $grid->created_at();
+        $grid->updated_at();
 
-            $grid->filter(function ($filter) {
-                $filter->expand();
-                $filter->like('name', 'Name');
-            });
+        $grid->filter(function ($filter) {
+            $filter->expand();
+            $filter->like('name', 'Name');
         });
+
+        return $grid;
     }
 
     /**
@@ -139,12 +134,13 @@ class LineController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Line::class, function (Form $form) {
+        $form = new Form(new Line());
 
-            $form->display('id', 'ID');
+        $form->display('id', 'ID');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
-        });
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
+
+        return $form;
     }
 }
