@@ -1,5 +1,12 @@
 # Release Notes
 
+## v1.5.19 (2018-08-22)
+
+- Modify the code structure of the generated controller
+- Added three commands, [Reference] (zh/commands.md)
+- Enhanced the `admin:make` command, which will automatically generate the corresponding code based on the table fields.
+- Fix bugs in `v1.5.18` version
+
 ## v1.5.18 (2018-08-10)
 
 - Refactored the style of the grid filter, adding `scope` query support

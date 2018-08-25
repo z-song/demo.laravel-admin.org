@@ -25,6 +25,8 @@
   - [API tester](/en/extension-api-tester.md)
   - [Config manager](/en/extension-config.md)
   - [Task scheduling](/en/extension-scheduling.md)
+- [Console commands](/en/commands.md)
+- [Content message](/en/content-message.md)
 - [Widgets](/en/widgets.md)
 - [Permissions](/en/permission.md)
 - [Custom authentication](/en/custom-authentication.md)

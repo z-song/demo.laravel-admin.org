@@ -26,6 +26,8 @@
   - [API tester](/zh/extension-api-tester.md)
   - [配置管理](/zh/extension-config.md)
   - [计划任务](/zh/extension-scheduling.md)
+- [控制台命令](/zh/commands.md)
+- [页面消息](/zh/content-message.md)
 - [前端组件](/zh/widgets.md)
 - [权限控制](/zh/permission.md)
 - [自定义登陆认证](/zh/custom-authentication.md)
