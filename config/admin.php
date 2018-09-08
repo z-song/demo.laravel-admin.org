@@ -26,7 +26,7 @@ return [
 
         'namespace'     => 'App\\Admin\\Controllers',
 
-        'middleware'    => ['web', 'admin', 'deny'],
+        'middleware'    => ['web', 'admin'],
     ],
 
     /*
