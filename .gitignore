@@ -3,6 +3,7 @@
 /public/storage
 /public/uploads
 /storage/*.key
+/storage/debugbar
 /vendor
 /.idea
 /.vagrant

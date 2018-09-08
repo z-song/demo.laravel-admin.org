@@ -16,6 +16,7 @@
         "laravel-admin-ext/log-viewer": "dev-master",
         "laravel-admin-ext/media-manager": "^1.0",
         "laravel-admin-ext/messages": "dev-master",
+        "laravel-admin-ext/phpinfo": "dev-master",
         "laravel-admin-ext/reporter": "dev-master",
         "laravel-admin-ext/scheduling": "dev-master",
         "laravel/framework": "5.5.*",

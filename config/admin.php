@@ -22,11 +22,11 @@ return [
      */
     'route' => [
 
-        'prefix' => 'demo',
+        'prefix' => '',
 
         'namespace'     => 'App\\Admin\\Controllers',
 
-        'middleware'    => ['web', 'admin'],
+        'middleware'    => ['web', 'admin', 'deny'],
     ],
 
     /*

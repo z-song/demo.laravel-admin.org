@@ -11,13 +11,13 @@ class DenyRoutes
 
     protected $routes = [
         'post' => [
-            'demo/media/upload',
-            'demo/helpers/terminal/database',
-            'demo/helpers/terminal/artisan',
-            'demo/helpers/scaffold',
+            'media/upload',
+            'helpers/terminal/database',
+            'helpers/terminal/artisan',
+            'helpers/scaffold',
         ],
         'delete' => [
-            'demo/media/delete',
+            'media/delete',
 
         ],
         'put' => [
