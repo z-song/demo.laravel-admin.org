@@ -232,7 +232,7 @@ class UserController extends Controller
 
         $show->friends(function ($friend) {
 
-            $friend->resource('/demo/users');
+            $friend->resource('users');
 
             $friend->name();
             $friend->email();
