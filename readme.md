@@ -1,13 +1,13 @@
-laravel-admin.org
+demo.laravel-admin.org
 =================
 
-Source code of official [http://laravel-admin.org](http://laravel-admin.org) website.
+Source code of official [http://demo.laravel-admin.org](http://demo.laravel-admin.org) website.
 
 ## Installation
 
 ```shell
 
-$ git clone https://github.com/z-song/laravel-admin.org
+$ git clone https://github.com/z-song/demo.laravel-admin.org
 
 $ cd laravel-admin.org
 
