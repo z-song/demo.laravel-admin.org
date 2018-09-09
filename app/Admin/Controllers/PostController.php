@@ -289,7 +289,8 @@ class PostController extends Controller
             }
         })->ajax('/demo/api/users');
 
-        $form->editor('content');
+        // @see https://github.com/laravel-admin-extensions/summernote
+        $form->summernote('content');
 
         $form->number('rate');
         $form->switch('released');

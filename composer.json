@@ -18,6 +18,7 @@
         "laravel-admin-ext/phpinfo": "dev-master",
         "laravel-admin-ext/reporter": "dev-master",
         "laravel-admin-ext/scheduling": "dev-master",
+        "laravel-admin-ext/summernote": "^0.1.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "~2.1.0",
