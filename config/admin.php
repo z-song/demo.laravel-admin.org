@@ -169,6 +169,10 @@ return [
             'user_retriever' => function ($id) {
                 return \App\User::find($id);
             },
+        ],
+
+        'phpinfo' => [
+            'what' => INFO_ALL^INFO_VARIABLES^INFO_ENVIRONMENT
         ]
     ]
 ];

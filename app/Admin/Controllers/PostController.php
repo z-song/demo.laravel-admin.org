@@ -184,23 +184,34 @@ class PostController extends Controller
 
         $grid->filter(function (Grid\Filter $filter) {
 
-            $filter->like('title');
+            $filter->expand();
 
-            $filter->equal('created_at')->datetime();
+            $filter->column(1/2, function ($filter) {
+                $filter->like('title');
 
-            $filter->between('updated_at')->datetime();
-
-            $filter->between('rate');
-
-            $filter->where(function ($query) {
-
-                $input = $this->input;
-
-                $query->whereHas('tags', function ($query) use ($input) {
-                    $query->where('name', $input);
+                $filter->group('rate', function ($group) {
+                    $group->gt('大于');
+                    $group->lt('小于');
+                    $group->nlt('不小于');
+                    $group->ngt('不大于');
+                    $group->equal('等于');
                 });
 
-            }, 'Has tag', 'tag');
+            });
+
+            $filter->column(1/2, function ($filter) {
+                $filter->equal('created_at')->datetime();
+                $filter->between('updated_at')->datetime();
+                $filter->where(function ($query) {
+
+                    $input = $this->input;
+
+                    $query->whereHas('tags', function ($query) use ($input) {
+                        $query->where('name', $input);
+                    });
+
+                }, 'Has tag', 'tag');
+            });
 
             $filter->scope('trashed')->onlyTrashed();
             $filter->scope('hot')->where('rate', '>', 3);
@@ -302,11 +313,11 @@ class PostController extends Controller
 
         $form->tools(function (Form\Tools $tools) {
 
-//                $tools->disableList();
-//                $tools->disableDelete();
-//                $tools->disableView();
+//          $tools->disableList();
+//          $tools->disableDelete();
+//          $tools->disableView();
 
-//                $tools->append('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
+//          $tools->append('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
         });
 
         return $form;
