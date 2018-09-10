@@ -43,6 +43,13 @@ Route::group([
         'subway/stops'          => Subway\StopController::class,
     ]);
 
+    $router->group(['prefix' => 'editors'], function ($router) {
+        $router->get('markdown', EditorsController::class.'@markdown');
+        $router->get('wang-editor', EditorsController::class.'@wangEditor');
+        $router->get('code-mirror', EditorsController::class.'@codeMirror');
+        $router->get('summernote', EditorsController::class.'@summernote');
+    });
+
     $router->post('posts/release', 'PostController@release');
     $router->post('posts/restore', 'PostController@restore');
     $router->get('api/users', 'PostController@users');

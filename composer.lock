@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f52176fbf44bb8b045ec100cf6d938f1",
+    "content-hash": "d650f5ce0fc2ba856fd21f54f2f2c4fd",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -990,6 +990,64 @@
             "time": "2018-03-21T22:21:57+00:00"
         },
         {
+            "name": "jxlwqq/code-mirror",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jxlwqq/code-mirror.git",
+                "reference": "e510c3f7add9fab6aae2710e0d02923ab29aef27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jxlwqq/code-mirror/zipball/e510c3f7add9fab6aae2710e0d02923ab29aef27",
+                "reference": "e510c3f7add9fab6aae2710e0d02923ab29aef27",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Jxlwqq\\CodeMirror\\CodeMirrorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jxlwqq\\CodeMirror\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jxlwqq",
+                    "email": "jxlwqq@gmail.com"
+                }
+            ],
+            "description": "code editor extension for laravel-admin",
+            "homepage": "https://github.com/jxlwqq/code-mirror",
+            "keywords": [
+                "extension",
+                "laravel-admin"
+            ],
+            "time": "2018-09-10T04:35:23+00:00"
+        },
+        {
             "name": "laravel-admin-ext/api-tester",
             "version": "dev-master",
             "source": {
@@ -1532,6 +1590,66 @@
                 "task"
             ],
             "time": "2018-05-07T02:07:14+00:00"
+        },
+        {
+            "name": "laravel-admin-ext/simplemde",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/simplemde.git",
+                "reference": "a177887a8ebdad6711fa6c1e7370492e488e9cf9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/simplemde/zipball/a177887a8ebdad6711fa6c1e7370492e488e9cf9",
+                "reference": "a177887a8ebdad6711fa6c1e7370492e488e9cf9",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Simplemde\\SimplemdeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Simplemde\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Simplemde markdown editor extension for laravel-admin",
+            "homepage": "https://github.com/laravel-admin-ext/simplemde",
+            "keywords": [
+                "editor",
+                "extension",
+                "laravel-admin",
+                "markdown"
+            ],
+            "time": "2018-09-09T09:42:13+00:00"
         },
         {
             "name": "laravel-admin-ext/summernote",
