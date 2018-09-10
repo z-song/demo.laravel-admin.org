@@ -991,16 +991,16 @@
         },
         {
             "name": "jxlwqq/code-mirror",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jxlwqq/code-mirror.git",
-                "reference": "e510c3f7add9fab6aae2710e0d02923ab29aef27"
+                "url": "https://github.com/laravel-admin-extensions/code-mirror.git",
+                "reference": "a4ad44b5aed9d78ff395eb674c13b05a26e4beeb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jxlwqq/code-mirror/zipball/e510c3f7add9fab6aae2710e0d02923ab29aef27",
-                "reference": "e510c3f7add9fab6aae2710e0d02923ab29aef27",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/code-mirror/zipball/a4ad44b5aed9d78ff395eb674c13b05a26e4beeb",
+                "reference": "a4ad44b5aed9d78ff395eb674c13b05a26e4beeb",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1045,7 +1045,7 @@
                 "extension",
                 "laravel-admin"
             ],
-            "time": "2018-09-10T04:35:23+00:00"
+            "time": "2018-09-10T06:14:09+00:00"
         },
         {
             "name": "laravel-admin-ext/api-tester",
