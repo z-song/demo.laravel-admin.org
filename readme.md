@@ -9,7 +9,7 @@ Source code of official [http://demo.laravel-admin.org](http://demo.laravel-admi
 
 $ git clone https://github.com/z-song/demo.laravel-admin.org
 
-$ cd laravel-admin.org
+$ cd demo.laravel-admin.org
 
 $ composer install -vvv
 
