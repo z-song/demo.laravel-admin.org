@@ -32,17 +32,6 @@ class EditorsController extends Controller
             ->row(new Box('wang Editor', $form));
     }
 
-    public function codeMirror(Content $content)
-    {
-        $form = new Form();
-        $form->code('content');
-
-        return $content
-            ->header('Code mirror')
-            ->row($this->info('https://github.com/laravel-admin-extensions/code-mirror', 'code-mirror'))
-            ->row(new Box('Code mirror', $form));
-    }
-
     public function summernote(Content $content)
     {
         $form = new Form();
@@ -54,8 +43,10 @@ class EditorsController extends Controller
             ->row(new Box('Summernote editor', $form));
     }
 
-    protected function info($content, $title)
+    protected function info($url, $title)
     {
+        $content = "<a href=\"{$url}\" target='_blank'>{$url}</a>";
+
         return new Callout($content, $title, 'info');
     }
 }
