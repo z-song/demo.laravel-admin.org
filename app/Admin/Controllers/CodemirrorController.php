@@ -23,7 +23,7 @@ class CodemirrorController extends Controller
 
         return $content
             ->header($title = 'Clike Editor')
-            ->row($this->info('https://github.com/laravel-admin-extensions/php-editor', $title))
+            ->row($this->info('https://github.com/laravel-admin-extensions/clike-editor', $title))
             ->row(new Box($title, $form));
     }
 
