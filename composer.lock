@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d650f5ce0fc2ba856fd21f54f2f2c4fd",
+    "content-hash": "99badd17ed8225d2216c268362bc2266",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -991,16 +991,16 @@
         },
         {
             "name": "jxlwqq/code-mirror",
-            "version": "1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/code-mirror.git",
-                "reference": "a4ad44b5aed9d78ff395eb674c13b05a26e4beeb"
+                "reference": "7622d7ba1b73a0fc2c27a477f7f75c5a5e8ba8de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/code-mirror/zipball/a4ad44b5aed9d78ff395eb674c13b05a26e4beeb",
-                "reference": "a4ad44b5aed9d78ff395eb674c13b05a26e4beeb",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/code-mirror/zipball/7622d7ba1b73a0fc2c27a477f7f75c5a5e8ba8de",
+                "reference": "7622d7ba1b73a0fc2c27a477f7f75c5a5e8ba8de",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1045,7 +1045,7 @@
                 "extension",
                 "laravel-admin"
             ],
-            "time": "2018-09-10T06:14:09+00:00"
+            "time": "2018-09-11T17:18:52+00:00"
         },
         {
             "name": "laravel-admin-ext/api-tester",
@@ -1170,6 +1170,73 @@
             "time": "2018-04-24T11:45:17+00:00"
         },
         {
+            "name": "laravel-admin-ext/clike-editor",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/clike-editor.git",
+                "reference": "409fad1f8201fe081738ed9cf803d638d4e1bf4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/clike-editor/zipball/409fad1f8201fe081738ed9cf803d638d4e1bf4d",
+                "reference": "409fad1f8201fe081738ed9cf803d638d4e1bf4d",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "jxlwqq/code-mirror": "*",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\ClikeEditor\\ClikeEditorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\ClikeEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Several c-lick language editor extensions for laravel-admin based on code-mirror",
+            "homepage": "https://github.com/laravel-admin-ext/clike-editor",
+            "keywords": [
+                "Ceylon",
+                "clang",
+                "code-mirror",
+                "cpp",
+                "editor",
+                "extension",
+                "java",
+                "kotlin",
+                "laravel-admin",
+                "objectivec",
+                "scala"
+            ],
+            "time": "2018-09-11T17:19:39+00:00"
+        },
+        {
             "name": "laravel-admin-ext/config",
             "version": "dev-master",
             "source": {
@@ -1287,6 +1354,68 @@
                 "laravel-admin"
             ],
             "time": "2018-09-09 09:36:49"
+        },
+        {
+            "name": "laravel-admin-ext/js-editor",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/js-editor.git",
+                "reference": "4657c3df82bc6ac7919ce7460d0a8ac37f04dd72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/js-editor/zipball/4657c3df82bc6ac7919ce7460d0a8ac37f04dd72",
+                "reference": "4657c3df82bc6ac7919ce7460d0a8ac37f04dd72",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "jxlwqq/code-mirror": "*",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\JsEditor\\JsEditorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\JsEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Javascript editor extension for laravel-admin",
+            "homepage": "https://github.com/laravel-admin-ext/js-editor",
+            "keywords": [
+                "JS",
+                "code mirror",
+                "editor",
+                "extension",
+                "javascript",
+                "laravel-admin"
+            ],
+            "time": "2018-09-11T17:20:09+00:00"
         },
         {
             "name": "laravel-admin-ext/log-viewer",
@@ -1411,6 +1540,67 @@
             "time": "2018-04-25T06:10:18+00:00"
         },
         {
+            "name": "laravel-admin-ext/php-editor",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/php-editor.git",
+                "reference": "8a41a929f24a5817db23efdc88d6acde39a19796"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/php-editor/zipball/8a41a929f24a5817db23efdc88d6acde39a19796",
+                "reference": "8a41a929f24a5817db23efdc88d6acde39a19796",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "jxlwqq/code-mirror": "*",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\PHPEditor\\PHPEditorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\PHPEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "PHP editor extension for laravel-admin based on code-mirror",
+            "homepage": "https://github.com/laravel-admin-ext/php-editor",
+            "keywords": [
+                "code mirror",
+                "editor",
+                "extension",
+                "laravel-admin",
+                "php"
+            ],
+            "time": "2018-09-11T17:20:29+00:00"
+        },
+        {
             "name": "laravel-admin-ext/phpinfo",
             "version": "dev-master",
             "source": {
@@ -1468,6 +1658,67 @@
                 "phpinfo"
             ],
             "time": "2018-09-09 09:38:15"
+        },
+        {
+            "name": "laravel-admin-ext/python-editor",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/python-editor.git",
+                "reference": "bd482560f5ae7b86b61899374e718f28bad47ab3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/python-editor/zipball/bd482560f5ae7b86b61899374e718f28bad47ab3",
+                "reference": "bd482560f5ae7b86b61899374e718f28bad47ab3",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "jxlwqq/code-mirror": "*",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\PythonEditor\\PythonEditorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\PythonEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Python editor extension for laravel-admin",
+            "homepage": "https://github.com/laravel-admin-ext/python-editor",
+            "keywords": [
+                "code mirror",
+                "editor",
+                "extension",
+                "laravel-admin",
+                "python"
+            ],
+            "time": "2018-09-11T17:20:54+00:00"
         },
         {
             "name": "laravel-admin-ext/reporter",

@@ -46,8 +46,14 @@ Route::group([
     $router->group(['prefix' => 'editors'], function ($router) {
         $router->get('markdown', EditorsController::class.'@markdown');
         $router->get('wang-editor', EditorsController::class.'@wangEditor');
-        $router->get('code-mirror', EditorsController::class.'@codeMirror');
         $router->get('summernote', EditorsController::class.'@summernote');
+    });
+
+    $router->group(['prefix' => 'code-mirror'], function ($router) {
+        $router->get('clike', CodemirrorController::class.'@clike');
+        $router->get('php', CodemirrorController::class.'@php');
+        $router->get('js', CodemirrorController::class.'@js');
+        $router->get('python', CodemirrorController::class.'@python');
     });
 
     $router->post('posts/release', 'PostController@release');
