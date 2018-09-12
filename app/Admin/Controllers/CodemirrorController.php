@@ -64,8 +64,10 @@ class CodemirrorController extends Controller
             ->row(new Box($title, $form));
     }
 
-    protected function info($content, $title)
+    protected function info($url, $title)
     {
+        $content = "<a href=\"{$url}\" target='_blank'>{$url}</a>";
+
         return new Callout($content, $title, 'info');
     }
 
