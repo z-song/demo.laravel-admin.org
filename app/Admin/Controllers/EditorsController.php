@@ -46,7 +46,7 @@ class EditorsController extends Controller
     public function json(Content $content)
     {
         $form = new Form();
-        $form->json('content');
+        $form->jsonEditor('content');
 
         return $content
             ->header($title = 'Json Editor')

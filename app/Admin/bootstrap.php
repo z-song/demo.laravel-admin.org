@@ -14,7 +14,9 @@ use Encore\Admin\Grid\Column;
 
 Form::forget(['map', 'editor']);
 
-Form::extend('editor', WangEditor::class);
+//Form::extend('editor', WangEditor::class);
+Form::extend('json', \Encore\JsEditor\Json::class);
+Form::extend('jsonEditor', \Jxlwqq\JsonEditor\Editor::class);
 
 Admin::css('/vendor/prism/prism.css');
 Admin::js('/vendor/prism/prism.js');
@@ -40,3 +42,5 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
     $navbar->right(new Links());
 
 });
+
+
