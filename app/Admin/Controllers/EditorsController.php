@@ -16,9 +16,9 @@ class EditorsController extends Controller
         $form->simplemde('content');
 
         return $content
-            ->header('Markdown Editor')
-            ->row($this->info('https://github.com/laravel-admin-extensions/simplemde', 'Simplemde'))
-            ->row(new Box('Markdown editor', $form));
+            ->header($title = 'Markdown Editor')
+            ->row($this->info('https://github.com/laravel-admin-extensions/simplemde', $title))
+            ->row(new Box($title, $form));
     }
 
     public function wangEditor(Content $content)
@@ -27,9 +27,9 @@ class EditorsController extends Controller
         $form->editor('content');
 
         return $content
-            ->header('wang Editor')
-            ->row($this->info('https://github.com/laravel-admin-extensions/wangEditor', 'wangEditor'))
-            ->row(new Box('wang Editor', $form));
+            ->header($title = 'Wang Editor')
+            ->row($this->info('https://github.com/laravel-admin-extensions/wangEditor', $title))
+            ->row(new Box($title, $form));
     }
 
     public function summernote(Content $content)
@@ -38,9 +38,20 @@ class EditorsController extends Controller
         $form->summernote('content');
 
         return $content
-            ->header('Summernote Editor')
-            ->row($this->info('https://github.com/laravel-admin-extensions/summernote', 'Summernote'))
-            ->row(new Box('Summernote editor', $form));
+            ->header($title = 'Summernote Editor')
+            ->row($this->info('https://github.com/laravel-admin-extensions/summernote', $title))
+            ->row(new Box($title, $form));
+    }
+
+    public function json(Content $content)
+    {
+        $form = new Form();
+        $form->json('content');
+
+        return $content
+            ->header($title = 'Json Editor')
+            ->row($this->info('https://github.com/laravel-admin-extensions/json-editor', $title))
+            ->row(new Box($title, $form));
     }
 
     protected function info($url, $title)

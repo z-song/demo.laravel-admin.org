@@ -47,6 +47,7 @@ Route::group([
         $router->get('markdown', EditorsController::class.'@markdown');
         $router->get('wang-editor', EditorsController::class.'@wangEditor');
         $router->get('summernote', EditorsController::class.'@summernote');
+        $router->get('json', EditorsController::class.'@json');
     });
 
     $router->group(['prefix' => 'code-mirror'], function ($router) {
@@ -54,6 +55,11 @@ Route::group([
         $router->get('php', CodemirrorController::class.'@php');
         $router->get('js', CodemirrorController::class.'@js');
         $router->get('python', CodemirrorController::class.'@python');
+    });
+
+    $router->group(['prefix' => 'lightbox'], function ($router) {
+        $router->get('lightbox', LightboxController::class.'@lightbox');
+        $router->get('gallery', LightboxController::class.'@gallery');
     });
 
     $router->post('posts/release', 'PostController@release');
