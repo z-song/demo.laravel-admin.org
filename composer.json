@@ -10,7 +10,7 @@
         "fideloper/proxy": "~3.3",
         "intervention/image": "^2.4",
         "jxlwqq/code-mirror": "^1.0",
-        "jxlwqq/json-editor": "^0.1.0",
+        "jxlwqq/json-editor": "^1.0",
         "laravel-admin-ext/api-tester": "dev-master",
         "laravel-admin-ext/backup": "dev-master",
         "laravel-admin-ext/clike-editor": "^1.0",

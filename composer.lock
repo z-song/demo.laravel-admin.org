@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccb78c150970528bfae01a6b48e66f3e",
+    "content-hash": "b172a256a14748d9b7ea88f0be398bb8",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1049,16 +1049,16 @@
         },
         {
             "name": "jxlwqq/json-editor",
-            "version": "0.1.0",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/json-editor.git",
-                "reference": "8553910814e0f2d50b0531c43584f81e3b7bf6de"
+                "reference": "8e95a002c75dd45c9460f7a48157a6c58ccbe183"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/json-editor/zipball/8553910814e0f2d50b0531c43584f81e3b7bf6de",
-                "reference": "8553910814e0f2d50b0531c43584f81e3b7bf6de",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/json-editor/zipball/8e95a002c75dd45c9460f7a48157a6c58ccbe183",
+                "reference": "8e95a002c75dd45c9460f7a48157a6c58ccbe183",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1103,7 +1103,7 @@
                 "extension",
                 "laravel-admin"
             ],
-            "time": "2018-09-12T16:03:16+00:00"
+            "time": "2018-09-13T05:22:28+00:00"
         },
         {
             "name": "laravel-admin-ext/api-tester",
