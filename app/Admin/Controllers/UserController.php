@@ -89,6 +89,10 @@ class UserController extends Controller
 
         $grid->column('expand')->expand(function () {
 
+            if (empty($this->profile)) {
+                return '';
+            }
+
             $profile = array_only($this->profile, ['homepage', 'gender', 'birthday', 'address', 'last_login_at', 'last_login_ip', 'lat', 'lng']);
 
             return new Table([], $profile);
