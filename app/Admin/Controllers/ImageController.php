@@ -76,7 +76,7 @@ class ImageController extends Controller
         $form->text('caption');
         $form->select('uploader')->options(User::all()->pluck('name', 'id'));
 
-        $form->image('image')->flip('v')->rules('required');
+        $form->image('image')/*->flip('v')*/->rules('required');
 
         $form->display('created_at');
         $form->display('updated_at');
