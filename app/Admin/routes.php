@@ -82,4 +82,6 @@ Route::group([
     $router->get('widgets/tab', 'WidgetsController@tab');
     $router->get('widgets/notice', 'WidgetsController@notice');
     $router->get('widgets/editors', 'WidgetsController@editors');
+
+    $router->get('chartjs', 'ChartjsController@index');
 });

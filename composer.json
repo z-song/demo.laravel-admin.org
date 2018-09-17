@@ -13,6 +13,7 @@
         "jxlwqq/json-editor": "^1.0",
         "laravel-admin-ext/api-tester": "dev-master",
         "laravel-admin-ext/backup": "dev-master",
+        "laravel-admin-ext/chartjs": "^1.0",
         "laravel-admin-ext/clike-editor": "^1.0",
         "laravel-admin-ext/config": "dev-master",
         "laravel-admin-ext/grid-lightbox": "^1.0",
