@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Widgets\Callout;
 
 class ChartjsController extends Controller
 {
     public function index(Content $content)
     {
         return $content
-            ->header('Chartjs')
+            ->header($title = 'Chartjs')
+            ->row($this->info('https://github.com/laravel-admin-extensions/chartjs', $title))
             ->row(function (Row $row) {
 
                 $bar = view('admin.chartjs.bar');
@@ -36,5 +38,12 @@ class ChartjsController extends Controller
                 $row->column(1/3, new Box('Chart.js Line Chart - Stacked Area', $bar));
 
             });
+    }
+
+    protected function info($url, $title)
+    {
+        $content = "<a href=\"{$url}\" target='_blank'>{$url}</a>";
+
+        return new Callout($content, $title, 'info');
     }
 }
