@@ -93,7 +93,7 @@ class UserController extends Controller
                 return '';
             }
 
-            $profile = array_only($this->profile, ['homepage', 'gender', 'birthday', 'address', 'last_login_at', 'last_login_ip', 'lat', 'lng']);
+            $profile = array_only($this->profile->toArray(), ['homepage', 'gender', 'birthday', 'address', 'last_login_at', 'last_login_ip', 'lat', 'lng']);
 
             return new Table([], $profile);
 
