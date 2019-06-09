@@ -3,46 +3,16 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Tools\GridView;
-use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\User;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
 use Illuminate\Support\Facades\Request;
 
-class ImageController extends Controller
+class ImageController extends AdminController
 {
-    use HasResourceActions;
-
-    public function index(Content $content)
-    {
-        return $content
-            ->header('Images')
-            ->body($this->grid());
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Images')
-            ->description(trans('admin::lang.create'))
-            ->body($this->form());
-    }
-
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Images')
-            ->description('Edit')
-            ->body($this->form()->edit($id));
-    }
+    protected $title = 'Images';
 
     protected function grid()
     {

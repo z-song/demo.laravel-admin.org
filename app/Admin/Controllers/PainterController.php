@@ -3,53 +3,13 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Painter;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 
-class PainterController extends Controller
+class PainterController extends AdminController
 {
-    use HasResourceActions;
-
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index(Content $content)
-    {
-        return $content
-            ->header('Painters')
-            ->body($this->grid());
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Edit painters')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Create painters')
-            ->body($this->form());
-    }
+    protected $title = 'Painters';
 
     /**
      * Make a grid builder.

@@ -4,55 +4,13 @@ namespace App\Admin\Controllers\World;
 
 use App\Models\World\City;
 use App\Models\World\Country;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 
-class CountryController extends Controller
+class CountryController extends AdminController
 {
-    use HasResourceActions;
-
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index(Content $content)
-    {
-        return $content
-            ->header('Country')
-            ->description('description')
-            ->body($this->grid());
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Country')
-            ->description('description')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Country')
-            ->description('description')
-            ->body($this->form());
-    }
+    protected $title = 'Country';
 
     /**
      * Make a grid builder.

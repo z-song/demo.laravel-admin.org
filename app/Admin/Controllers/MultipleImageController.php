@@ -2,54 +2,14 @@
 
 namespace App\Admin\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\MultipleImage;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
 
-class MultipleImageController extends Controller
+class MultipleImageController extends AdminController
 {
-    use HasResourceActions;
-
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index(Content $content)
-    {
-        return $content
-            ->header('Multiple images upload')
-            ->body($this->grid());
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Multiple images upload')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Multiple images upload')
-            ->description('description')
-            ->body($this->form());
-    }
+    protected $title = 'Multiple images upload';
 
     /**
      * Make a grid builder.

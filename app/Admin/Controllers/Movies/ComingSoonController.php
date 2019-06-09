@@ -16,7 +16,7 @@ class ComingSoonController extends Controller
      */
     public function index(Content $content)
     {
-        $content->header('即将上映');
+        $content->title('即将上映');
         $content->description('上海');
 
         $content->body($this->grid());
@@ -48,7 +48,7 @@ class ComingSoonController extends Controller
         $grid->disableActions();
         $grid->disableBatchDeletion();
         $grid->disableExport();
-        $grid->disableCreation();
+        $grid->disableCreateButton();
         $grid->disableFilter();
 
         return $grid;

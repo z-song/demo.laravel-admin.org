@@ -16,7 +16,7 @@ class EditorsController extends Controller
         $form->simplemde('content');
 
         return $content
-            ->header($title = 'Markdown Editor')
+            ->title($title = 'Markdown Editor')
             ->row($this->info('https://github.com/laravel-admin-extensions/simplemde', $title))
             ->row(new Box($title, $form));
     }
@@ -27,7 +27,7 @@ class EditorsController extends Controller
         $form->editor('content');
 
         return $content
-            ->header($title = 'Wang Editor')
+            ->title($title = 'Wang Editor')
             ->row($this->info('https://github.com/laravel-admin-extensions/wangEditor', $title))
             ->row(new Box($title, $form));
     }
@@ -38,7 +38,7 @@ class EditorsController extends Controller
         $form->summernote('content');
 
         return $content
-            ->header($title = 'Summernote Editor')
+            ->title($title = 'Summernote Editor')
             ->row($this->info('https://github.com/laravel-admin-extensions/summernote', $title))
             ->row(new Box($title, $form));
     }
@@ -49,7 +49,7 @@ class EditorsController extends Controller
         $form->jsonEditor('content')->default(file_get_contents(base_path('composer.json')));
 
         return $content
-            ->header($title = 'Json Editor')
+            ->title($title = 'Json Editor')
             ->row($this->info('https://github.com/laravel-admin-extensions/json-editor', $title))
             ->row(new Box($title, $form));
     }

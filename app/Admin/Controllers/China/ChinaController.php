@@ -15,7 +15,7 @@ class ChinaController extends Controller
 {
     public function cascading(Request $request, Content $content)
     {
-        $content->header('Cascading select');
+        $content->title('Cascading select');
 
         $form = new Form($request->all());
         $form->method('GET');

@@ -20,7 +20,7 @@ class LightboxController extends Controller
         $grid->created_at();
 
         return $content
-            ->header($title = 'Lightbox')
+            ->title($title = 'Lightbox')
             ->row($this->info('https://github.com/laravel-admin-extensions/grid-lightbox', $title))
             ->row($grid);
     }
@@ -35,7 +35,7 @@ class LightboxController extends Controller
         $grid->created_at();
 
         return $content
-            ->header($title = 'Lightbox')
+            ->title($title = 'Lightbox')
             ->row($this->info('https://github.com/laravel-admin-extensions/grid-lightbox', $title))
             ->row($grid);
     }

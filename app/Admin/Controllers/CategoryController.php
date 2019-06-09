@@ -2,18 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Tree;
 
-class CategoryController extends Controller
+class CategoryController extends AdminController
 {
-    use HasResourceActions;
+    protected $title = 'All categories';
 
     /**
      * Index interface.
@@ -23,33 +20,8 @@ class CategoryController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('All categories')
+            ->title($this->title)
             ->body($this->tree());
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Edit category')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Create new category')
-            ->body($this->form());
     }
 
     /**

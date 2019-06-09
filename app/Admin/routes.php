@@ -2,7 +2,7 @@
 
 use Illuminate\Routing\Router;
 
-Admin::registerAuthRoutes();
+Admin::routes();
 
 Route::group([
     'prefix'        => config('admin.route.prefix'),
@@ -73,9 +73,13 @@ Route::group([
     $router->get('api/china/city', 'China\ChinaController@city');
     $router->get('api/china/district', 'China\ChinaController@district');
 
-    $router->get('widgets/form-1', 'WidgetsController@form1');
-    $router->get('widgets/form-2', 'WidgetsController@form2');
-    $router->get('widgets/form-3', 'WidgetsController@form3');
+    $router->get('forms/form-1', 'FormController@form1');
+    $router->get('forms/form-2', 'FormController@form2');
+    $router->get('forms/form-3', 'FormController@form3');
+    $router->get('forms/form-4', 'FormController@form4');
+    $router->get('forms/settings', 'FormController@settings');
+    $router->get('forms/register', 'FormController@register');
+
     $router->get('widgets/table', 'WidgetsController@table');
     $router->get('widgets/box', 'WidgetsController@box');
     $router->get('widgets/info-box', 'WidgetsController@infoBox');

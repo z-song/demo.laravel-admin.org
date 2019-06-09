@@ -20,11 +20,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->get('/users', function () {
     return \App\User::all();
 });
-
-Route::get('test', function () {
-    return 'hello world';
-});
-
-Route::get('parameters', function (Request $request) {
-    return $request->all();
-});

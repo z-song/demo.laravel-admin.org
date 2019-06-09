@@ -16,10 +16,9 @@ class Top250Controller extends Controller
      */
     public function index(Content $content)
     {
-        $content->header('Top250');
-        $content->body($this->grid());
-
-        return $content;
+        return $content
+            ->title('Top250')
+            ->body($this->grid());
     }
 
     /**
@@ -47,7 +46,7 @@ class Top250Controller extends Controller
         $grid->disableActions();
         $grid->disableBatchDeletion();
         $grid->disableExport();
-        $grid->disableCreation();
+        $grid->disableCreateButton();
         $grid->disableFilter();
 
         return $grid;

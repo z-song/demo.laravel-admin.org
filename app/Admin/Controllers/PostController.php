@@ -9,89 +9,73 @@ use App\Models\Post;
 use App\Models\PostComment;
 use App\Models\Tag;
 use App\Models\User;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 use Encore\Admin\Show;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends AdminController
 {
-    use HasResourceActions;
+    protected $title = 'Posts';
 
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index(Content $content)
+    protected function detail($id)
     {
-        return $content
-            ->header('Posts')
-            ->description('Post list..')
-            ->body($this->grid());
-    }
+        $show = new Show(Post::findOrFail($id));
 
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Post')
-            ->description('Post详情')
-            ->body(Admin::show(Post::findOrFail($id), function (Show $show) {
+        $show->panel()
+            ->style('danger')
+            ->title('post基本信息')
+            ->tools(function ($tools) {
+                // $tools->disableEdit();
+            });;
 
-                $show->panel()
-                    ->style('danger')
-                    ->title('post基本信息')
-                    ->tools(function ($tools) {
-    //                        $tools->disableEdit();
-                    });;
+        $show->title()->foo();
+        $show->content()->json();
+        $show->rate();
+        $show->created_at();
+        $show->updated_at();
+        $show->release_at();
 
-                $show->title()->foo();
-                $show->content()->json();
-                $show->rate();
-                $show->created_at();
-                $show->updated_at();
-                $show->release_at();
+        $show->divider();
 
-                $show->divider();
+        $show->tags('标签')->as(function ($tags) {
+            return $tags->pluck('name');
+        })->badge();
 
-                $show->tags('标签')->as(function ($tags) {
-                    return $tags->pluck('name');
-                })->badge();
+        $show->author('作者信息', function ($author) {
 
-                $show->author('作者信息', function ($author) {
+            $author->setResource('/demo/users');
 
-                    $author->setResource('/demo/users');
+            $author->id();
+            $author->name();
+            $author->email();
+            $author->avatar();
+            $author->profile()->age();
+            $author->profile()->gender('性别')->using(['m' => '女', 'f' => '男'], '未知');
 
-                    $author->id();
-                    $author->name();
-                    $author->email();
-                    $author->avatar();
-                    $author->profile()->age();
-                    $author->profile()->gender('性别')->using(['m' => '女', 'f' => '男'], '未知');
+            $author->panel()->tools(function ($tools) {
+                $tools->disableDelete();
+            });
+        });
 
-                    $author->panel()->tools(function ($tools) {
-                        $tools->disableDelete();
-                    });
-                });
+        $show->comments('评论', function ($line) {
 
-                $show->comments('评论', function ($line) {
+            $line->resource('/demo/post-comments');
 
-                    $line->resource('/demo/post-comments');
+            $line->id();
+            $line->content()->limit(10);
+            $line->created_at();
+            $line->updated_at();
 
-                    $line->id();
-                    $line->content()->limit(10);
-                    $line->created_at();
-                    $line->updated_at();
+            $line->filter(function ($filter) {
+                $filter->like('content');
+            });
+        });
 
-                    $line->filter(function ($filter) {
-                        $filter->like('content');
-                    });
-                });
-        }));
+        return $show;
     }
 
     /**
@@ -103,7 +87,7 @@ class PostController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('header')
+            ->title('header')
             ->description('description')
             ->row($this->form()->edit($id))
             ->row(Admin::grid(PostComment::class, function (Grid $grid) use ($id) {
@@ -122,19 +106,6 @@ class PostController extends Controller
     }
 
     /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('header')
-            ->description('description')
-            ->body($this->form());
-    }
-
-    /**
      * Make a grid builder.
      *
      * @return Grid
@@ -143,11 +114,11 @@ class PostController extends Controller
     {
         $grid = new Grid(new Post());
 
-//        $grid->expandFilter();
+        $grid->quickSearch();
 
         $grid->id('ID')->sortable();
 
-        $grid->title()->ucfirst()->limit(30);
+        $grid->title()->ucfirst()->limit(30)->totalRow('统计');
 
         $grid->tags()->pluck('name')->label();
 
@@ -166,7 +137,7 @@ class PostController extends Controller
             }
 
             return join('&nbsp;', array_fill(0, min(5, $rate), $html));
-        });
+        })->totalRow();
 
         $grid->column('float_bar')->floatBar();
 
@@ -178,7 +149,7 @@ class PostController extends Controller
 
         $grid->rows(function (Grid\Row $row) {
             if ($row->id % 2) {
-//                    $row->setAttributes(['style' => 'color:red;']);
+                $row->setAttributes(['style' => 'color:red;']);
             }
         });
 
@@ -231,52 +202,40 @@ class PostController extends Controller
 
         });
 
-//            $grid->footer(function (Grid\Tools\Footer $footer) {
-//
-//                $totalRate = $footer->column('rate')->sum();
-//
-//                $footer->td()->colspan(4);
-//
-//                $footer->td("总评分 : $totalRate");
-//            });
-
-//            $grid->exporter(new CustomExporter());
         return $grid;
     }
 
     protected function _form()
     {
-        return Admin::form(Post::class, function (Form $form) {
+        $form = new Form(new Post);
 
-            $form->row(function ($row) {
-                $row->width(2)->display('id', 'ID');
-            });
-
-            $form->row(function ($row) {
-                $row->width(4)->text('title', '文章标题')->rules('min:3|max:5')->help('标题标题标题标题标题标题标题');
-                $row->width(4)->select('author_id', '选择作者')->options(function ($id) {
-                    $user = User::find($id);
-
-                    if ($user) {
-                        return [$user->id => $user->name];
-                    }
-                })->ajax('/demo/api/users');
-                $row->width(2)->number('rate', '评分');
-                $row->width(2)->switch('released', '发布?');
-            });
-
-            $form->row(function ($row) {
-                $row->width(5)->listbox('tags', '选择标签')->options(Tag::all()->pluck('name', 'id'))->settings(['selectorMinimalHeight' => 300]);
-                $row->width(7)->textarea('content', '文章内容')->rows(19)->help('标题标题标题标题标题标题标题');
-            });
-
-            $form->row(function ($row) {
-
-                $row->width(6)->datetimeRange('created_at', 'updated_at', '创建时间');
-//                $row->width(3)->display('created_at', '创建时间');
-//                $row->width(3)->display('updated_at', '更新时间');
-            });
+        $form->row(function ($row) {
+            $row->width(2)->display('id', 'ID');
         });
+
+        $form->row(function ($row) {
+            $row->width(4)->text('title', '文章标题')->rules('min:3|max:5')->help('标题标题标题标题标题标题标题');
+            $row->width(4)->select('author_id', '选择作者')->options(function ($id) {
+                $user = User::find($id);
+
+                if ($user) {
+                    return [$user->id => $user->name];
+                }
+            })->ajax('/demo/api/users');
+            $row->width(2)->number('rate', '评分');
+            $row->width(2)->switch('released', '发布?');
+        });
+
+        $form->row(function ($row) {
+            $row->width(5)->listbox('tags', '选择标签')->options(Tag::all()->pluck('name', 'id'))->settings(['selectorMinimalHeight' => 300]);
+            $row->width(7)->textarea('content', '文章内容')->rows(19)->help('标题标题标题标题标题标题标题');
+        });
+
+        $form->row(function ($row) {
+            $row->width(6)->datetimeRange('created_at', 'updated_at', '创建时间');
+        });
+
+        return $form;
     }
 
     /**

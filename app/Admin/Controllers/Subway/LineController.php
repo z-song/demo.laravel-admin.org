@@ -4,17 +4,15 @@ namespace App\Admin\Controllers\Subway;
 
 use App\Models\Subway\Line;
 
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 use Encore\Admin\Show;
 
-class LineController extends Controller
+class LineController extends AdminController
 {
-    use HasResourceActions;
+    protected $title = 'Lines';
 
     /**
      * Index interface.
@@ -24,7 +22,7 @@ class LineController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('header')
+            ->title($this->title)
             ->description('description')
             ->row(function($row) {
                 $row->column(10, $this->grid());
@@ -32,67 +30,29 @@ class LineController extends Controller
             });
     }
 
-    public function show($id, Content $content)
+    protected function detail($id)
     {
-        $content->header('Lines');
-        $content->description('线路详情');
+        $show = new Show(Line::findOrFail($id));
 
-        $content->body(Admin::show(Line::findOrFail($id), function (Show $show) {
+        $show->name();
+        $show->uid();
+        $show->city()->cn_name();
 
-            $show->name();
-            $show->uid();
-            $show->city()->cn_name();
+        $show->stops('地铁线', function ($stop) {
 
-            $show->stops('地铁线', function ($stop) {
+            $stop->resource('/demo/subway/stops');
 
-                $stop->resource('/demo/subway/stops');
+            $stop->id();
+            $stop->name();
+            $stop->uid();
 
-                $stop->id();
-                $stop->name();
-                $stop->uid();
+            $stop->column('position')->openMap(function () {
+                return [$this->lat / 100000, $this->lng / 100000];
+            }, 'Position');
 
-                $stop->column('position')->openMap(function () {
-                    return [$this->lat/100000, $this->lng/100000];
-                }, 'Position');
-
-                $stop->created_at();
-                $stop->updated_at();
-
-            });
-        }));
-
-        return $content;
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        $content->header('header');
-        $content->description('description');
-
-        $content->body($this->form()->edit($id));
-
-        return $content;
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        $content->header('header');
-        $content->description('description');
-
-        $content->body($this->form());
-
-        return $content;
+            $stop->created_at();
+            $stop->updated_at();
+        });
     }
 
     /**
@@ -107,12 +67,6 @@ class LineController extends Controller
         $grid->id('ID')->sortable();
 
         $grid->name();
-
-//            $grid->uid();
-//            $grid->pair_uid();
-//            $grid->stops()->display(function ($lines) {
-//                return array_column($lines, 'name');
-//            })->implode('</br>');
 
         $grid->city()->cn_name();
 

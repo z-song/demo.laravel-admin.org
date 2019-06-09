@@ -2,47 +2,14 @@
 
 namespace App\Admin\Controllers\Movies;
 
-use App\Http\Controllers\Controller;
 use App\Models\Movie\InTheater;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
 
-class InTheaterController extends Controller
+class InTheaterController extends AdminController
 {
-    use HasResourceActions;
-
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index(Content $content)
-    {
-        $content->header('正在上映的电影');
-        $content->description('上海');
-
-        $content->body($this->grid());
-
-        return $content;
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        $content->header('Orderable articles');
-        $content->description('description');
-
-        $content->body($this->form()->edit($id));
-
-        return $content;
-    }
+    protected $title = '正在上映的电影';
 
     /**
      * Make a grid builder.
@@ -67,7 +34,7 @@ class InTheaterController extends Controller
 
         $grid->disableBatchDeletion();
         $grid->disableExport();
-        $grid->disableCreation();
+        $grid->disableCreateButton();
         $grid->disableFilter();
 
         return $grid;

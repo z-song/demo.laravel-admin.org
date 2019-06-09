@@ -2,78 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\ChinaArea;
 use App\Models\User;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 
-class UserController extends Controller
+class UserController extends AdminController
 {
-    use HasResourceActions;
-
     /**
      * @var string
      */
     protected $title = 'Users';
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Content
-     */
-    protected function index(Content $content)
-    {
-        return $content
-            ->header($this->title)
-            ->description('Index')
-            ->body($this->grid());
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header($this->title)
-            ->description('Detail')
-            ->body($this->detail($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header($this->title)
-            ->description('Edit')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header($this->title)
-            ->description('Create')
-            ->body($this->form());
-    }
 
     public function grid()
     {
@@ -109,16 +51,15 @@ class UserController extends Controller
 
         $grid->email()->prependIcon('envelope');
 
-        //$grid->profile()->mobile()->prependIcon('phone');
+        $grid->profile()->mobile()->prependIcon('phone');
 
-        //$grid->column('profile.age')->progressBar(['success', 'striped'], 'xs')->sortable();
+        $grid->column('profile.age')->hide();
 
-        $grid->profile()->age()->sortable();
         $grid->profile()->gender()->using(['f' => '女', 'm' => '男']);
 
         $grid->created_at();
 
-        $grid->updated_at();
+        $grid->updated_at()->hide();
 
         $grid->filter(function (Grid\Filter $filter) {
 

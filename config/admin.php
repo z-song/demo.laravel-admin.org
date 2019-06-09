@@ -38,6 +38,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Laravel-admin bootstrap setting
+    |--------------------------------------------------------------------------
+    |
+    | This value is the path of laravel-admin bootstrap file.
+    |
+    */
+    'bootstrap' => app_path('Admin/bootstrap.php'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Laravel-admin route settings
     |--------------------------------------------------------------------------
     |
@@ -52,7 +62,7 @@ return [
 
         'namespace'     => 'App\\Admin\\Controllers',
 
-        'middleware'    => ['web', 'admin'],
+        'middleware'    => ['web', 'admin', 'deny'],
     ],
 
     /*
@@ -109,6 +119,18 @@ return [
                 'driver' => 'eloquent',
                 'model'  => Encore\Admin\Auth\Database\Administrator::class,
             ]
+        ],
+
+        // Add "remember me" to login form
+        'remember' => true,
+
+        // Redirect to the specified URI when user is not authorized.
+        'redirect_to' => 'auth/login',
+
+        // The URIs that should be excluded from authorization.
+        'excepts' => [
+            'auth/login',
+            'auth/logout',
         ],
     ],
 
@@ -180,16 +202,31 @@ return [
 
         'enable' => true,
 
-        /**
+        /*
+         * Only logging allowed methods in the list
+         */
+        'allowed_methods' => ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH'],
+
+        /*
          * Routes that will not log to database.
          *
          * All method to path like: admin/auth/logs
-         * or specific method to path like: get:admin/auth/logs
+         * or specific method to path like: get:admin/auth/logs.
          */
         'except' => [
             'admin/auth/logs*',
-        ]
+        ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | User default avatar
+    |--------------------------------------------------------------------------
+    |
+    | Set a default avatar for newly created users.
+    |
+    */
+    'default_avatar' => '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg',
 
     /*
     |--------------------------------------------------------------------------
@@ -239,7 +276,7 @@ return [
     | This value is used to set the background image of login page.
     |
     */
-    'login_background_image' => '',
+    'login_background_image' => '/img/login-bg.jpg',
 
     /*
     |--------------------------------------------------------------------------
@@ -261,6 +298,45 @@ return [
     |
     */
     'show_environment' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Menu bind to permission
+    |--------------------------------------------------------------------------
+    |
+    | whether enable menu bind to a permission
+    */
+    'menu_bind_permission' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable default breadcrumb
+    |--------------------------------------------------------------------------
+    |
+    | Whether enable default breadcrumb for every page content.
+    */
+    'enable_default_breadcrumb' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable/Disable assets minify
+    |--------------------------------------------------------------------------
+    */
+    'minify_assets' => [
+
+        // Assets will not be minified.
+        'excepts' => [
+
+        ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable/Disable sidebar menu search
+    |--------------------------------------------------------------------------
+    */
+    'enable_menu_search' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -299,6 +375,17 @@ return [
 
         'phpinfo' => [
             'what' => INFO_ALL^INFO_VARIABLES^INFO_ENVIRONMENT
+        ],
+
+        'wang-editor' => [
+
+            // 如果要关掉这个扩展，设置为false
+            'enable' => true,
+
+            // 编辑器的配置
+            'config' => [
+                'uploadImgServer' => '/upload',
+            ]
         ]
     ]
 ];

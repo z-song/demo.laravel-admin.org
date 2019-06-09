@@ -22,7 +22,7 @@ class CodemirrorController extends Controller
         $form->ceylon('ceylon')->default($this->defaultValues['ceylon']);
 
         return $content
-            ->header($title = 'Clike Editor')
+            ->title($title = 'Clike Editor')
             ->row($this->info('https://github.com/laravel-admin-extensions/clike-editor', $title))
             ->row(new Box($title, $form));
     }
@@ -33,7 +33,7 @@ class CodemirrorController extends Controller
         $form->php('php')->default($this->defaultValues['php']);
 
         return $content
-            ->header($title = 'PHP Editor')
+            ->title($title = 'PHP Editor')
             ->row($this->info('https://github.com/laravel-admin-extensions/php-editor', $title))
             ->row(new Box($title, $form));
     }
@@ -47,7 +47,7 @@ class CodemirrorController extends Controller
         $form->typescript('typescript')->default($this->defaultValues['typescript']);
 
         return $content
-            ->header($title = 'Javascript Editor')
+            ->title($title = 'Javascript Editor')
             ->row($this->info('https://github.com/laravel-admin-extensions/js-editor', $title))
             ->row(new Box($title, $form));
     }
@@ -59,7 +59,7 @@ class CodemirrorController extends Controller
         $form->python('python2')->version(2)->default($this->defaultValues['python']);
 
         return $content
-            ->header($title = 'Python Editor')
+            ->title($title = 'Python Editor')
             ->row($this->info('https://github.com/laravel-admin-extensions/python-editor', $title))
             ->row(new Box($title, $form));
     }

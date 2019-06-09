@@ -13,7 +13,7 @@ class ChartjsController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header($title = 'Chartjs')
+            ->title($title = 'Chartjs')
             ->row($this->info('https://github.com/laravel-admin-extensions/chartjs', $title))
             ->row(function (Row $row) {
 

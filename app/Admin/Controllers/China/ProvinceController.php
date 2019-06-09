@@ -4,57 +4,15 @@ namespace App\Admin\Controllers\China;
 
 use App\Models\ChinaArea;
 use App\Http\Controllers\Controller;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 
-class ProvinceController extends Controller
+class ProvinceController extends AdminController
 {
-    use HasResourceActions;
-
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index(Content $content)
-    {
-        $content->header('Province');
-        $content->description('description');
-        $content->body($this->grid());
-
-        return $content;
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        $content->header('Province');
-        $content->description('description');
-        $content->body($this->form()->edit($id));
-
-        return $content;
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        $content->header('Country');
-        $content->description('description');
-        $content->body($this->form());
-
-        return $content;
-    }
+    protected $title = 'Province';
 
     /**
      * Make a grid builder.
@@ -75,8 +33,8 @@ class ProvinceController extends Controller
             $filter->like('name');
         });
 
-        $grid->disableActions();
-        $grid->disableCreation();
+        $grid->disableActions()
+            ->disableCreateButton();
 
         return $grid;
     }

@@ -4,17 +4,15 @@ namespace App\Admin\Controllers\Subway;
 
 use App\Models\Subway\Stop;
 
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 use Encore\Admin\Show;
 
-class StopController extends Controller
+class StopController extends AdminController
 {
-    use HasResourceActions;
+    protected $title = 'Stops';
 
     /**
      * Index interface.
@@ -23,67 +21,29 @@ class StopController extends Controller
      */
     public function index(Content $content)
     {
-        $content->header('header');
-        $content->description('description');
+        return $content
+            ->title($this->title)
+            ->row(function($row) {
+                $row->column(10, $this->grid());
+                $row->column(2, view('admin.grid.subway'));
+            });
+    }
 
-        $content->row(function($row) {
-            $row->column(10, $this->grid());
-            $row->column(2, view('admin.grid.subway'));
+    protected function detail($id)
+    {
+        $show = new Show(Stop::findOrFail($id));
+
+        $show->name();
+        $show->uid();
+        $show->lat();
+        $show->lng();
+
+        $show->line(function ($line) {
+            $line->name();
+            $line->uid();
         });
 
-        return $content;
-    }
-
-    public function show($id, Content $content)
-    {
-        $content->header('Lines');
-        $content->description('线路详情');
-
-        $content->body(Admin::show(Stop::findOrFail($id), function (Show $show) {
-
-            $show->name();
-            $show->uid();
-            $show->lat();
-            $show->lng();
-
-            $show->line(function ($line) {
-                $line->name();
-                $line->uid();
-            });
-        }));
-
-        return $content;
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        $content->header('header');
-        $content->description('description');
-
-        $content->body($this->form()->edit($id));
-
-        return $content;
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        $content->header('header');
-        $content->description('description');
-
-        $content->body($this->form());
-
-        return $content;
+        return $show;
     }
 
     /**

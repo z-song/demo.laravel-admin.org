@@ -17,7 +17,7 @@ class LanguageController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Language')
+            ->title('Language')
             ->description('description')
             ->body($this->grid());
     }
@@ -42,7 +42,7 @@ class LanguageController extends Controller
 
 
         $grid->disableActions();
-        $grid->disableCreation();
+        $grid->disableCreateButton();
 
         $grid->filter(function ($filter) {
             $filter->like('Language');

@@ -3,17 +3,15 @@
 namespace App\Admin\Controllers\Subway;
 
 use App\Models\Subway\City;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 use Encore\Admin\Show;
 
-class CityController extends Controller
+class CityController extends AdminController
 {
-    use HasResourceActions;
+    protected $title = 'Cities';
 
     /**
      * Index interface.
@@ -23,7 +21,7 @@ class CityController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Cities')
+            ->title('Cities')
             ->description('description')
             ->row(function($row) {
                 $row->column(10, $this->grid());
@@ -31,57 +29,27 @@ class CityController extends Controller
             });
     }
 
-    public function show($id, Content $content)
+    protected function detail($id)
     {
-        return $content
-            ->header('Cities')
-            ->description('城市详情')
-            ->body(Admin::show(City::findOrFail($id), function (Show $show) {
+        $show = new Show(City::findOrFail($id));
 
-                $show->cn_name('中文名');
-                $show->en_name('英文名');
-                $show->code('城市编码');
-                $show->field('pre');
+        $show->cn_name('中文名');
+        $show->en_name('英文名');
+        $show->code('城市编码');
+        $show->field('pre');
 
-                $show->lines('地铁线', function ($line) {
+        $show->lines('地铁线', function ($line) {
 
-                    $line->resource('/demo/subway/lines');
+            $line->resource('/demo/subway/lines');
 
-                    $line->id();
-                    $line->name();
-                    $line->pair_uid();
-                    $line->created_at();
-                    $line->updated_at();
+            $line->id();
+            $line->name();
+            $line->pair_uid();
+            $line->created_at();
+            $line->updated_at();
+        });
 
-                });
-            }));
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('header')
-            ->description('description')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('header')
-            ->description('description')
-            ->body($this->form());
+        return $show;
     }
 
     /**
@@ -97,13 +65,6 @@ class CityController extends Controller
 
         $grid->cn_name();
         $grid->en_name();
-
-//            $grid->lines()->display(function ($lines) {
-//                return array_column($lines, 'name');
-//            })->implode('</br>');
-
-//            $grid->code();
-//            $grid->pre();
 
         $grid->created_at();
         $grid->updated_at();

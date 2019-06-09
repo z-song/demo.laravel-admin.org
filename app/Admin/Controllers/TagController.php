@@ -3,55 +3,13 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Tag;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 
-class TagController extends Controller
+class TagController extends AdminController
 {
-    use HasResourceActions;
-
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index(Content $content)
-    {
-        return $content
-            ->header('Tags')
-            ->description('All tags')
-            ->body($this->grid());
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Tags')
-            ->description('Edit tags')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Tags')
-            ->description('Create tags')
-            ->body($this->form());
-    }
+    protected $title = 'Tags';
 
     /**
      * Make a grid builder.
