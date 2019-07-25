@@ -41,6 +41,8 @@ Route::group([
         'subway/cities'         => Subway\CityController::class,
         'subway/lines'          => Subway\LineController::class,
         'subway/stops'          => Subway\StopController::class,
+
+        'documents'             => DocumentController::class,
     ]);
 
     $router->group(['prefix' => 'editors'], function ($router) {

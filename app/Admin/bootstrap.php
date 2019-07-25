@@ -1,8 +1,8 @@
 <?php
 
+use App\Admin\Actions;
 use App\Admin\Extensions\Column\OpenMap;
 use App\Admin\Extensions\Column\FloatBar;
-use App\Admin\Extensions\Column\Qrcode;
 use App\Admin\Extensions\Column\UrlWrapper;
 use App\Admin\Extensions\Nav;
 use Encore\Admin\Form;
@@ -20,7 +20,6 @@ Admin::js('/vendor/clipboard/dist/clipboard.min.js');
 
 Column::extend('openMap', OpenMap::class);
 Column::extend('floatBar', FloatBar::class);
-Column::extend('qrcode', Qrcode::class);
 Column::extend('urlWrapper', UrlWrapper::class);
 
 Column::extend('prependIcon', function ($value, $icon) {
@@ -30,7 +29,10 @@ Column::extend('prependIcon', function ($value, $icon) {
 Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
     $navbar->right(Nav\Link::make('Settings', 'forms/settings'));
     $navbar->right(Nav\Link::make('Register', 'forms/register', 'fa-user'));
-    $navbar->right(new Nav\AutoRefresh());
+    $navbar->right(new Nav\AutoRefresh())
+        ->right(new Actions\ClearCache())
+        ->right(new Actions\Feedback())
+        ->right(new Actions\System());
 
     $navbar->left(view('admin.search-bar'));
 
@@ -44,7 +46,7 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
         'Categories' => 'categories/create',
     ], 'fa-plus')->title('Create'));
 
-    $navbar->left(new Nav\Modules());
+    $navbar->left(new Nav\Dropdown());
 });
 
 

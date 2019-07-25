@@ -141,9 +141,9 @@ class PostController extends AdminController
 
         $grid->column('float_bar')->floatBar();
 
-        $grid->column('Comments')->display(function () {
-            return $this->comments()->take(5)->get(['id', 'content', 'created_at'])->toArray();
-        })->table();
+//        $grid->column('Comments')->display(function () {
+//            return $this->comments()->take(5)->get(['id', 'content', 'created_at'])->toArray();
+//        })->table();
 
         $grid->created_at();
 

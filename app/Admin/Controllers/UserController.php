@@ -23,43 +23,23 @@ class UserController extends AdminController
 
         $grid->model()->with('profile')->orderBy('id', 'DESC');
 
-        $grid->paginate(20);
+        $grid->fixColumns(4, -3);
 
-        $grid->id('ID')->sortable();
-
-        $grid->name()->editable();
-
-        $grid->column('expand')->expand(function () {
-
-            if (empty($this->profile)) {
-                return '';
-            }
-
-            $profile = array_only($this->profile->toArray(), ['homepage', 'gender', 'birthday', 'address', 'last_login_at', 'last_login_ip', 'lat', 'lng']);
-
-            return new Table([], $profile);
-
-        }, 'Profile');
-//
-        $grid->column('position')->openMap(function () {
-
-            return [$this->profile['lat'], $this->profile['lng']];
-
-        }, 'Position');
-
-        $grid->column('profile.homepage')->urlWrapper();
-
-        $grid->email()->prependIcon('envelope');
-
-        $grid->profile()->mobile()->prependIcon('phone');
-
-        $grid->column('profile.age')->hide();
-
-        $grid->profile()->gender()->using(['f' => '女', 'm' => '男']);
-
-        $grid->created_at();
-
-        $grid->updated_at()->hide();
+        $grid->column('id', 'ID')->sortable()->totalRow();
+        $grid->column('name')->editable();
+        $grid->column('email')->editable();
+        $grid->column('profile.homepage');//->urlWrapper();
+        $grid->column('address.province_id')->default('-');
+        $grid->column('address.city_id')->default('-');
+        $grid->column('address.district_id')->default('-');
+        $grid->column('address.province_id')->default('-');
+        $grid->column('address.city_id')->default('-');
+        $grid->column('address.district_id')->default('-');
+        $grid->column('profile.mobile')->prependIcon('phone');
+        $grid->column('profile.age');//->progressBar();
+        $grid->column('profile.gender')->using(['f' => '女', 'm' => '男']);
+        $grid->column('created_at');
+        $grid->column('updated_at');
 
         $grid->filter(function (Grid\Filter $filter) {
 
