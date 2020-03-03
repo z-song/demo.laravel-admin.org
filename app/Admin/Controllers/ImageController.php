@@ -4,7 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Tools\GridView;
 use App\Models\Image;
-use App\Models\User;
+use App\User;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
