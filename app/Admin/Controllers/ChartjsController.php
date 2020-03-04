@@ -28,14 +28,16 @@ class ChartjsController extends Controller
 
             })->row(function (Row $row) {
 
+                $bar = view('admin.chartjs.line-stacked');
+                $row->column(99/100, new Box('Chart.js Line Chart - Stacked Area', $bar));
+
+            })->row(function (Row $row) {
+
                 $bar = view('admin.chartjs.doughnut');
-                $row->column(1/3, new Box('Doughnut chart', $bar));
+                $row->column(1/2, new Box('Doughnut chart', $bar));
 
                 $scatter = view('admin.chartjs.combo-bar-line');
-                $row->column(1/3, new Box('Chart.js Combo Bar Line Chart', $scatter));
-
-                $bar = view('admin.chartjs.line-stacked');
-                $row->column(1/3, new Box('Chart.js Line Chart - Stacked Area', $bar));
+                $row->column(1/2, new Box('Chart.js Combo Bar Line Chart', $scatter));
 
             });
     }

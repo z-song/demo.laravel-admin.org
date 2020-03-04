@@ -47,6 +47,7 @@ Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
     ], 'fa-plus')->title('Create'));
 
     $navbar->left(new Nav\Dropdown());
+    // $navbar->left(new Nav\Dropdown());
 });
 
 
