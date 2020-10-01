@@ -3,7 +3,7 @@ demo.laravel-admin.org
 
 Source code of official [http://demo.laravel-admin.org](http://demo.laravel-admin.org) website.
 
-## Installation
+## Installation (install carefully)
 
 ```shell
 
